@@ -1,0 +1,1641 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presensi LAZIS Sabilillah</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #4ade80 0%, #16a34a 100%);
+        }
+        .login-container {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #4ade80 0%, #16a34a 100%);
+        }
+        .dashboard-container {
+            display: none;
+        }
+        .stats-card {
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+        }
+        .stats-card:hover {
+            transform: translateY(-5px);
+        }
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            max-width: 350px;
+            animation: slideIn 0.3s ease-out forwards;
+        }
+        .notification-success {
+            background-color: #ecfdf5;
+            border-left: 4px solid #10b981;
+            color: #065f46;
+        }
+        .notification-error {
+            background-color: #fef2f2;
+            border-left: 4px solid #ef4444;
+            color: #991b1b;
+        }
+        @keyframes slideIn {
+            from {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        @keyframes slideOut {
+            from {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+        }
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .logo-img {
+            width: auto;
+            height: auto;
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        .loading-spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border-left-color: #16a34a;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .tab-active {
+            color: #16a34a;
+            border-bottom: 2px solid #16a34a;
+            font-weight: 600;
+        }
+        .refresh-button {
+            transition: transform 0.3s ease;
+        }
+        .refresh-button:hover {
+            transform: rotate(180deg);
+        }
+        .refresh-button.spinning {
+            animation: spin 1s linear infinite;
+        }
+        .last-updated {
+            font-size: 0.75rem;
+            color: #6b7280;
+            margin-top: 0.5rem;
+        }
+        .settings-badge {
+            background-color: #e0f2fe;
+            color: #0369a1;
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            margin-left: 0.5rem;
+            display: inline-flex;
+            align-items: center;
+        }
+        .absent-list {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+        }
+        .absent-list-item {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #e5e7eb;
+            transition: background-color 0.2s;
+        }
+        .absent-list-item:last-child {
+            border-bottom: none;
+        }
+        .absent-list-item:hover {
+            background-color: #f9fafb;
+        }
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 50;
+        }
+        .modal-content {
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Page -->
+    <div id="loginPage" class="login-container">
+        <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+            <div class="text-center mb-6">
+                <div class="logo-container w-24 h-24 mx-auto mb-4">
+                    <img src="https://silat.lazissabilillah.com/images/lazissabilillah.png" alt="LAZIS Sabilillah Logo" class="logo-img" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22%2316a34a%22></rect><text x=%2250%%22 y=%2250%%22 font-size=%2220%22 text-anchor=%22middle%22 fill=%22white%22 dy=%22.3em%22>LAZIS</text></svg>'">
+                </div>
+                <h1 class="text-2xl font-bold text-gray-800">Presensi LAZIS Sabilillah</h1>
+                <p class="text-gray-600 mt-2">Silakan masukkan password untuk melanjutkan</p>
+            </div>
+            
+            <div class="mb-6">
+                <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                <input type="password" id="password" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                <p id="passwordError" class="text-red-500 text-sm mt-1 hidden">Password salah, silakan coba lagi</p>
+            </div>
+            
+            <button id="loginBtn" class="w-full gradient-bg text-white py-2 px-4 rounded-md hover:opacity-90 transition-opacity font-medium">
+                Masuk
+            </button>
+        </div>
+    </div>
+
+    <!-- Dashboard Page -->
+    <div id="dashboardPage" class="dashboard-container min-h-screen bg-gray-50">
+        <!-- Header -->
+        <header class="gradient-bg text-white shadow-md">
+            <div class="container mx-auto px-4 py-3">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <div class="flex items-center mb-3 md:mb-0">
+                        <div class="logo-container w-12 h-12 mr-3">
+                            <img src="https://silat.lazissabilillah.com/images/lazissabilillah.png" alt="LAZIS Sabilillah Logo" class="logo-img" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2248%22 height=%2248%22 viewBox=%220 0 48 48%22><rect width=%2248%22 height=%2248%22 fill=%22%2316a34a%22></rect><text x=%2250%%22 y=%2250%%22 font-size=%2214%22 text-anchor=%22middle%22 fill=%22white%22 dy=%22.3em%22>LAZIS</text></svg>'">
+                        </div>
+                        <h1 class="text-xl font-bold">Presensi LAZIS Sabilillah</h1>
+                    </div>
+                    
+                    <div class="flex flex-col md:flex-row items-center">
+                        <div class="text-center md:text-right mr-0 md:mr-6 mb-3 md:mb-0">
+                            <div id="dayDate" class="text-sm"></div>
+                            <div id="clock" class="text-lg font-semibold"></div>
+                        </div>
+                        
+                        <button id="logoutBtn" class="bg-white text-green-700 px-4 py-1.5 rounded-md hover:bg-gray-100 transition-colors font-medium flex items-center">
+                            <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <div class="bg-white shadow-sm">
+            <div class="container mx-auto px-4">
+                <div class="flex overflow-x-auto">
+                    <button id="tabPresensi" class="tab-btn px-4 py-3 text-gray-700 hover:text-green-600 focus:outline-none tab-active">
+                        <i class="fas fa-clipboard-check mr-2"></i> Presensi
+                    </button>
+                    <button id="tabDatabase" class="tab-btn px-4 py-3 text-gray-700 hover:text-green-600 focus:outline-none">
+                        <i class="fas fa-database mr-2"></i> Database
+                    </button>
+                    <button id="tabSettings" class="tab-btn px-4 py-3 text-gray-700 hover:text-green-600 focus:outline-none">
+                        <i class="fas fa-cog mr-2"></i> Pengaturan
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <main class="container mx-auto px-4 py-6">
+            <!-- Loading Indicator -->
+            <div id="loadingIndicator" class="flex flex-col items-center justify-center py-12">
+                <div class="loading-spinner mb-4"></div>
+                <p class="text-gray-600">Memuat data...</p>
+            </div>
+
+            <!-- Tab Content -->
+            <div id="mainContent" class="hidden">
+                <!-- Presensi Tab -->
+                <div id="presensiContent" class="tab-content">
+                    <!-- Stats Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
+                        <div class="stats-card bg-white p-4">
+                            <div class="flex items-start justify-between">
+                                <div>
+                                    <p class="text-gray-500 text-sm">Total Panitia</p>
+                                    <h3 class="text-2xl font-bold text-gray-800" id="totalPanitia">0</h3>
+                                </div>
+                                <div class="bg-blue-100 p-2 rounded-lg">
+                                    <i class="fas fa-users text-blue-500 text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="stats-card bg-white p-4">
+                            <div class="flex items-start justify-between">
+                                <div>
+                                    <p class="text-gray-500 text-sm">Hadir Hari Ini</p>
+                                    <h3 class="text-2xl font-bold text-gray-800" id="totalHadir">0</h3>
+                                </div>
+                                <div class="bg-green-100 p-2 rounded-lg">
+                                    <i class="fas fa-check-circle text-green-500 text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="stats-card bg-white p-4">
+                            <div class="flex items-start justify-between">
+                                <div>
+                                    <p class="text-gray-500 text-sm">Terlambat</p>
+                                    <h3 class="text-2xl font-bold text-gray-800" id="totalTerlambat">0</h3>
+                                </div>
+                                <div class="bg-yellow-100 p-2 rounded-lg">
+                                    <i class="fas fa-clock text-yellow-500 text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="stats-card bg-white p-4 cursor-pointer" id="belumPresensiCard">
+                            <div class="flex items-start justify-between">
+                                <div>
+                                    <p class="text-gray-500 text-sm">Belum Presensi</p>
+                                    <h3 class="text-2xl font-bold text-gray-800" id="totalBelumPresensi">0</h3>
+                                </div>
+                                <div class="bg-red-100 p-2 rounded-lg">
+                                    <i class="fas fa-times-circle text-red-500 text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="stats-card bg-white p-4">
+                            <div class="flex items-start justify-between">
+                                <div>
+                                    <p class="text-gray-500 text-sm">Sudah Pulang</p>
+                                    <h3 class="text-2xl font-bold text-gray-800" id="totalSudahPulang">0</h3>
+                                </div>
+                                <div class="bg-purple-100 p-2 rounded-lg">
+                                    <i class="fas fa-home text-purple-500 text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Presensi Form -->
+                    <div class="bg-white rounded-lg shadow-sm p-6 mb-8">
+                        <h2 class="text-xl font-semibold text-gray-800 mb-4 text-center">Form Input NIK / Barcode</h2>
+                        
+                        <div class="flex flex-col items-center">
+                            <div class="flex justify-center space-x-6 mb-6">
+                                <label class="flex items-center cursor-pointer">
+                                    <input type="radio" name="presensiType" value="masuk" class="hidden" checked>
+                                    <div class="w-6 h-6 rounded-full border-2 border-green-500 flex items-center justify-center mr-2 radio-outer">
+                                        <div class="w-3 h-3 rounded-full bg-green-500 radio-inner"></div>
+                                    </div>
+                                    <span class="text-gray-700">Masuk</span>
+                                </label>
+                                
+                                <label class="flex items-center cursor-pointer">
+                                    <input type="radio" name="presensiType" value="pulang" class="hidden">
+                                    <div class="w-6 h-6 rounded-full border-2 border-green-500 flex items-center justify-center mr-2 radio-outer">
+                                        <div class="w-3 h-3 rounded-full bg-green-500 radio-inner opacity-0"></div>
+                                    </div>
+                                    <span class="text-gray-700">Pulang</span>
+                                </label>
+                            </div>
+                            
+                            <div class="w-full max-w-md">
+                                <div class="mb-4">
+                                    <label for="nik" class="block text-sm font-medium text-gray-700 mb-1">NIK</label>
+                                    <input type="text" id="nik" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Masukkan NIK atau Scan Barcode">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Riwayat Presensi (Now directly under the form) -->
+                    <div class="bg-white rounded-lg shadow-sm p-6">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+                            <div class="flex items-center">
+                                <h2 class="text-xl font-semibold text-gray-800 mb-4 md:mb-0">Riwayat Presensi</h2>
+                                <button id="refreshPresensi" class="ml-2 text-green-600 hover:text-green-800 focus:outline-none" title="Refresh Data">
+                                    <i class="fas fa-sync-alt refresh-button"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="flex flex-col md:flex-row space-y-3 md:space-y-0 md:space-x-3 w-full md:w-auto">
+                                <div class="flex">
+                                    <input type="date" id="filterDate" class="px-3 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                                    <button id="filterDateBtn" class="bg-green-600 text-white px-3 py-2 rounded-r-md hover:bg-green-700">
+                                        <i class="fas fa-filter"></i>
+                                    </button>
+                                </div>
+                                
+                                <div class="flex">
+                                    <input type="text" id="searchInput" placeholder="Cari..." class="px-3 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                                    <button id="searchBtn" class="bg-green-600 text-white px-3 py-2 rounded-r-md hover:bg-green-700">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full">
+                                <thead>
+                                    <tr class="text-sm">
+                                        <th class="px-4 py-2 text-left">Tanggal</th>
+                                        <th class="px-4 py-2 text-left">NIK</th>
+                                        <th class="px-4 py-2 text-left">Nama</th>
+                                        <th class="px-4 py-2 text-left">Jobdesk</th>
+                                        <th class="px-4 py-2 text-left">Jam Masuk</th>
+                                        <th class="px-4 py-2 text-left">Status</th>
+                                        <th class="px-4 py-2 text-left">Jam Keluar</th>
+                                        <th class="px-4 py-2 text-left">Keterangan</th>
+                                        <th class="px-4 py-2 text-left">Hak</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="presensiTableBody">
+                                    <!-- Data will be populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div id="noDataMessage" class="hidden text-center py-4 text-gray-500">
+                            Tidak ada data presensi yang ditemukan
+                        </div>
+                        
+                        <div class="mt-4">
+                            <ul class="flex justify-center space-x-2" id="pagination"></ul>
+                        </div>
+                        
+                        <div id="lastUpdatedPresensi" class="last-updated text-center mt-2"></div>
+                    </div>
+                </div>
+
+                <!-- Database Tab -->
+                <div id="databaseContent" class="tab-content hidden">
+                    <div class="bg-white rounded-lg shadow-sm p-6">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+                            <div class="flex items-center">
+                                <h2 class="text-xl font-semibold text-gray-800 mb-4 md:mb-0">Database</h2>
+                                <button id="refreshDatabase" class="ml-2 text-green-600 hover:text-green-800 focus:outline-none" title="Refresh Data">
+                                    <i class="fas fa-sync-alt refresh-button"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="flex">
+                                <input type="text" id="searchDatabase" placeholder="Cari..." class="px-3 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                                <button id="searchDatabaseBtn" class="bg-green-600 text-white px-3 py-2 rounded-r-md hover:bg-green-700">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full">
+                                <thead>
+                                    <tr class="text-sm">
+                                        <th class="px-4 py-2 text-left">NIK</th>
+                                        <th class="px-4 py-2 text-left">Nama</th>
+                                        <th class="px-4 py-2 text-left">Jobdesk</th>
+                                        <th class="px-4 py-2 text-left">Status</th>
+                                        <th class="px-4 py-2 text-left">Alamat</th>
+                                        <th class="px-4 py-2 text-left">WhatsApp</th>
+                                        <th class="px-4 py-2 text-left">Hak</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="databaseTableBody">
+                                    <!-- Data will be populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div id="noDatabaseMessage" class="hidden text-center py-4 text-gray-500">
+                            Tidak ada data panitia yang ditemukan
+                        </div>
+                        
+                        <div class="mt-4">
+                            <ul class="flex justify-center space-x-2" id="databasePagination"></ul>
+                        </div>
+                        
+                        <div id="lastUpdatedDatabase" class="last-updated text-center mt-2"></div>
+                    </div>
+                </div>
+
+                <!-- Settings Tab -->
+                <div id="settingsContent" class="tab-content hidden">
+                    <div class="bg-white rounded-lg shadow-sm p-6">
+                        <div class="flex items-center mb-6">
+                            <h2 class="text-xl font-semibold text-gray-800">Pengaturan</h2>
+                            <button id="refreshSettings" class="ml-2 text-green-600 hover:text-green-800 focus:outline-none" title="Refresh Pengaturan">
+                                <i class="fas fa-sync-alt refresh-button"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="mb-8">
+                            <div class="flex items-center mb-2">
+                                <h3 class="text-lg font-medium text-gray-700">Jam Masuk</h3>
+                                <span id="jamMasukBadge" class="settings-badge">
+                                    <i class="fas fa-clock mr-1"></i>
+                                    <span id="jamMasukValue">08:00</span>
+                                </span>
+                            </div>
+                            <p class="text-gray-500 text-sm mb-4">
+                                Jam masuk digunakan untuk menentukan status keterlambatan. Anda dapat mengubah jam masuk di spreadsheet pengaturan.
+                            </p>
+                            
+                            <div class="bg-blue-50 p-4 rounded-md">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 mt-0.5">
+                                        <i class="fas fa-info-circle text-blue-500"></i>
+                                    </div>
+                                    <div class="ml-3">
+                                        <h4 class="text-sm font-medium text-blue-800">Cara Mengubah Pengaturan</h4>
+                                        <div class="mt-2 text-sm text-blue-700">
+                                            <p>Untuk mengubah pengaturan, silakan edit spreadsheet pengaturan dengan format:</p>
+                                            <ul class="list-disc list-inside mt-2 space-y-1">
+                                                <li>Kolom <strong>jam_masuk</strong> dengan format <strong>HH:MM</strong> (contoh: 08:00)</li>
+                                            </ul>
+                                            <p class="mt-2">Setelah mengubah pengaturan, klik tombol refresh di atas untuk memperbarui.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="lastUpdatedSettings" class="last-updated text-center mt-2"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal for Absent People List -->
+    <div id="absentModal" class="modal-overlay hidden">
+        <div class="modal-content w-full max-w-lg">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-semibold text-gray-800">Daftar Belum Presensi</h3>
+                    <button id="closeAbsentModal" class="text-gray-500 hover:text-gray-700 focus:outline-none">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div class="mb-4">
+                    <input type="text" id="searchAbsent" placeholder="Cari nama atau jobdesk..." class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                </div>
+                
+                <div class="absent-list" id="absentList">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+                
+                <div id="noAbsentMessage" class="hidden text-center py-4 text-gray-500">
+                    Semua panitia sudah melakukan presensi hari ini
+                </div>
+                
+                <div class="mt-4 text-right">
+                    <button id="closeAbsentBtn" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 focus:outline-none">
+                        Tutup
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // API URLs
+        const PRESENSI_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTGrx18eVF4dhuy5hmlHrwymS_BCoDQLokwhOT23qKEgkSOSeJdxw9w6RPdEFKq9-rpuwPZWtiru8PM/pub?gid=0&single=true&output=csv";
+        const SETTINGS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTGrx18eVF4dhuy5hmlHrwymS_BCoDQLokwhOT23qKEgkSOSeJdxw9w6RPdEFKq9-rpuwPZWtiru8PM/pub?gid=190958088&single=true&output=csv";
+        const DATABASE_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTGrx18eVF4dhuy5hmlHrwymS_BCoDQLokwhOT23qKEgkSOSeJdxw9w6RPdEFKq9-rpuwPZWtiru8PM/pub?gid=313549088&single=true&output=csv";
+        
+        // Google Apps Script Web App URL (you need to replace this with your actual endpoint)
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec";
+        
+        // Auto refresh interval (in milliseconds) - 5 minutes
+        const AUTO_REFRESH_INTERVAL = 5 * 60 * 1000;
+        
+        // Global variables
+        let presensiData = [];
+        let panitiaData = [];
+        let databaseData = [];
+        let settingsData = {};
+        let filteredPresensiData = [];
+        let filteredDatabaseData = [];
+        let absentPeople = [];
+        let filteredAbsentPeople = [];
+        let currentPresensiPage = 1;
+        let currentDatabasePage = 1;
+        const rowsPerPage = 10;
+        let lastPresensiUpdate = null;
+        let lastDatabaseUpdate = null;
+        let lastSettingsUpdate = null;
+        let autoRefreshTimer = null;
+
+        // DOM Elements
+        const loginPage = document.getElementById('loginPage');
+        const dashboardPage = document.getElementById('dashboardPage');
+        const passwordInput = document.getElementById('password');
+        const passwordError = document.getElementById('passwordError');
+        const loginBtn = document.getElementById('loginBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const dayDateElement = document.getElementById('dayDate');
+        const clockElement = document.getElementById('clock');
+        const totalPanitiaElement = document.getElementById('totalPanitia');
+        const totalHadirElement = document.getElementById('totalHadir');
+        const totalTerlambatElement = document.getElementById('totalTerlambat');
+        const totalBelumPresensiElement = document.getElementById('totalBelumPresensi');
+        const totalSudahPulangElement = document.getElementById('totalSudahPulang');
+        const nikInput = document.getElementById('nik');
+        const presensiTableBody = document.getElementById('presensiTableBody');
+        const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.getElementById('searchBtn');
+        const filterDateInput = document.getElementById('filterDate');
+        const filterDateBtn = document.getElementById('filterDateBtn');
+        const noDataMessage = document.getElementById('noDataMessage');
+        const paginationElement = document.getElementById('pagination');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const mainContent = document.getElementById('mainContent');
+        const refreshPresensiBtn = document.getElementById('refreshPresensi');
+        const refreshDatabaseBtn = document.getElementById('refreshDatabase');
+        const refreshSettingsBtn = document.getElementById('refreshSettings');
+        const lastUpdatedPresensi = document.getElementById('lastUpdatedPresensi');
+        const lastUpdatedDatabase = document.getElementById('lastUpdatedDatabase');
+        const lastUpdatedSettings = document.getElementById('lastUpdatedSettings');
+        const jamMasukValue = document.getElementById('jamMasukValue');
+        
+        // Tab elements
+        const tabPresensi = document.getElementById('tabPresensi');
+        const tabDatabase = document.getElementById('tabDatabase');
+        const tabSettings = document.getElementById('tabSettings');
+        const presensiContent = document.getElementById('presensiContent');
+        const databaseContent = document.getElementById('databaseContent');
+        const settingsContent = document.getElementById('settingsContent');
+        
+        // Database tab elements
+        const databaseTableBody = document.getElementById('databaseTableBody');
+        const searchDatabase = document.getElementById('searchDatabase');
+        const searchDatabaseBtn = document.getElementById('searchDatabaseBtn');
+        const noDatabaseMessage = document.getElementById('noDatabaseMessage');
+        const databasePagination = document.getElementById('databasePagination');
+
+        // Absent modal elements
+        const absentModal = document.getElementById('absentModal');
+        const closeAbsentModal = document.getElementById('closeAbsentModal');
+        const closeAbsentBtn = document.getElementById('closeAbsentBtn');
+        const absentList = document.getElementById('absentList');
+        const searchAbsent = document.getElementById('searchAbsent');
+        const noAbsentMessage = document.getElementById('noAbsentMessage');
+        const belumPresensiCard = document.getElementById('belumPresensiCard');
+
+        // Parse CSV data
+        function parseCSV(csvText) {
+            const lines = csvText.split('\n');
+            const headers = lines[0].split(',');
+            
+            return lines.slice(1).filter(line => line.trim() !== '').map(line => {
+                const values = line.split(',');
+                const entry = {};
+                
+                headers.forEach((header, index) => {
+                    entry[header.trim()] = values[index] ? values[index].trim() : '';
+                });
+                
+                return entry;
+            });
+        }
+
+        // Format date and time for last updated display
+        function formatLastUpdated(date) {
+            if (!date) return '';
+            
+            const d = new Date(date);
+            const day = String(d.getDate()).padStart(2, '0');
+            const month = String(d.getMonth() + 1).padStart(2, '0');
+            const year = d.getFullYear();
+            const hours = String(d.getHours()).padStart(2, '0');
+            const minutes = String(d.getMinutes()).padStart(2, '0');
+            const seconds = String(d.getSeconds()).padStart(2, '0');
+            
+            return `Terakhir diperbarui: ${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+        }
+
+        // Add cache-busting parameter to URL
+        function addCacheBuster(url) {
+            const cacheBuster = `cache=${new Date().getTime()}`;
+            return url.includes('?') ? `${url}&${cacheBuster}` : `${url}?${cacheBuster}`;
+        }
+
+        // Fetch presensi data
+        async function fetchPresensiData() {
+            try {
+                const presensiResponse = await fetch(addCacheBuster(PRESENSI_CSV_URL));
+                const presensiCSV = await presensiResponse.text();
+                presensiData = parseCSV(presensiCSV);
+                
+                // Update filtered data
+                filteredPresensiData = [...presensiData];
+                
+                // Update last update time
+                lastPresensiUpdate = new Date();
+                lastUpdatedPresensi.textContent = formatLastUpdated(lastPresensiUpdate);
+                
+                // Mark today's attendance
+                updateAttendanceStatus();
+                
+                // Update UI
+                updateStats();
+                renderPresensiTable();
+                
+                return true;
+            } catch (error) {
+                console.error('Error fetching presensi data:', error);
+                return false;
+            }
+        }
+
+        // Fetch database data
+        async function fetchDatabaseData() {
+            try {
+                const databaseResponse = await fetch(addCacheBuster(DATABASE_CSV_URL));
+                const databaseCSV = await databaseResponse.text();
+                databaseData = parseCSV(databaseCSV);
+                
+                // Extract panitia data from database
+                panitiaData = databaseData.map(item => ({
+                    nik: item.nik,
+                    nama: item.nama,
+                    jobdesk: item.jobdisk || '',
+                    status: item.status || 'Aktif',
+                    hadir: false,
+                    terlambat: false,
+                    pulang: false
+                }));
+                
+                // Update filtered data
+                filteredDatabaseData = [...databaseData];
+                
+                // Update last update time
+                lastDatabaseUpdate = new Date();
+                lastUpdatedDatabase.textContent = formatLastUpdated(lastDatabaseUpdate);
+                
+                // Mark today's attendance
+                updateAttendanceStatus();
+                
+                // Update UI
+                updateStats();
+                renderDatabaseTable();
+                
+                return true;
+            } catch (error) {
+                console.error('Error fetching database data:', error);
+                return false;
+            }
+        }
+
+        // Fetch settings data
+        async function fetchSettingsData() {
+            try {
+                const settingsResponse = await fetch(addCacheBuster(SETTINGS_CSV_URL));
+                const settingsCSV = await settingsResponse.text();
+                const settingsArray = parseCSV(settingsCSV);
+                
+                // Convert settings array to object
+                settingsData = settingsArray.reduce((acc, item) => {
+                    Object.keys(item).forEach(key => {
+                        acc[key] = item[key];
+                    });
+                    return acc;
+                }, {});
+                
+                // Update UI with settings
+                updateSettingsUI();
+                
+                // Update last update time
+                lastSettingsUpdate = new Date();
+                lastUpdatedSettings.textContent = formatLastUpdated(lastSettingsUpdate);
+                
+                return true;
+            } catch (error) {
+                console.error('Error fetching settings data:', error);
+                return false;
+            }
+        }
+
+        // Update settings UI
+        function updateSettingsUI() {
+            // Update jam masuk display
+            if (settingsData.jam_masuk) {
+                jamMasukValue.textContent = settingsData.jam_masuk;
+            } else {
+                jamMasukValue.textContent = "08:00";
+            }
+        }
+
+        // Update attendance status based on presensi data
+        function updateAttendanceStatus() {
+            // Reset attendance status
+            panitiaData.forEach(panitia => {
+                panitia.hadir = false;
+                panitia.terlambat = false;
+                panitia.pulang = false;
+            });
+            
+            // Mark today's attendance
+            const today = formatDate(new Date());
+            presensiData.forEach(item => {
+                if (item.tanggal === today) {
+                    const panitia = panitiaData.find(p => p.nik === item.nik);
+                    if (panitia) {
+                        panitia.hadir = true;
+                        panitia.terlambat = item.status === 'Terlambat';
+                        panitia.pulang = item.jam_keluar && item.jam_keluar !== '-';
+                    }
+                }
+            });
+            
+            // Update absent people list
+            updateAbsentPeopleList();
+        }
+
+        // Update absent people list
+        function updateAbsentPeopleList() {
+            // Filter active panitia who haven't checked in today
+            absentPeople = panitiaData.filter(p => 
+                !p.hadir && 
+                (p.status === 'Aktif' || !p.status || p.status === '')
+            );
+            
+            // Sort by name
+            absentPeople.sort((a, b) => a.nama.localeCompare(b.nama));
+            
+            // Update filtered list
+            filteredAbsentPeople = [...absentPeople];
+        }
+
+        // Fetch all data
+        async function fetchData() {
+            try {
+                // Show loading indicator
+                loadingIndicator.classList.remove('hidden');
+                mainContent.classList.add('hidden');
+                
+                // Fetch all data in parallel
+                const [settingsSuccess, databaseSuccess, presensiSuccess] = await Promise.all([
+                    fetchSettingsData(),
+                    fetchDatabaseData(),
+                    fetchPresensiData()
+                ]);
+                
+                if (settingsSuccess && databaseSuccess && presensiSuccess) {
+                    showNotification('Data berhasil dimuat');
+                } else {
+                    showNotification('Beberapa data gagal dimuat. Silakan coba refresh halaman.', 'error');
+                }
+                
+                // Hide loading indicator and show content
+                loadingIndicator.classList.add('hidden');
+                mainContent.classList.remove('hidden');
+                
+                // Start auto refresh timer
+                startAutoRefresh();
+                
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                showNotification('Gagal memuat data. Silakan coba lagi.', 'error');
+                
+                // Hide loading indicator even on error
+                loadingIndicator.classList.add('hidden');
+            }
+        }
+
+        // Refresh presensi data
+        async function refreshPresensiData() {
+            const refreshIcon = refreshPresensiBtn.querySelector('i');
+            refreshIcon.classList.add('spinning');
+            
+            const success = await fetchPresensiData();
+            
+            refreshIcon.classList.remove('spinning');
+            
+            if (success) {
+                showNotification('Data presensi berhasil diperbarui');
+            } else {
+                showNotification('Gagal memperbarui data presensi', 'error');
+            }
+        }
+
+        // Refresh database data
+        async function refreshDatabaseData() {
+            const refreshIcon = refreshDatabaseBtn.querySelector('i');
+            refreshIcon.classList.add('spinning');
+            
+            const success = await fetchDatabaseData();
+            
+            refreshIcon.classList.remove('spinning');
+            
+            if (success) {
+                showNotification('Data database berhasil diperbarui');
+            } else {
+                showNotification('Gagal memperbarui data database', 'error');
+            }
+        }
+
+        // Refresh settings data
+        async function refreshSettingsData() {
+            const refreshIcon = refreshSettingsBtn.querySelector('i');
+            refreshIcon.classList.add('spinning');
+            
+            const success = await fetchSettingsData();
+            
+            refreshIcon.classList.remove('spinning');
+            
+            if (success) {
+                showNotification('Pengaturan berhasil diperbarui');
+            } else {
+                showNotification('Gagal memperbarui pengaturan', 'error');
+            }
+        }
+
+        // Start auto refresh timer
+        function startAutoRefresh() {
+            // Clear existing timer if any
+            if (autoRefreshTimer) {
+                clearInterval(autoRefreshTimer);
+            }
+            
+            // Set new timer
+            autoRefreshTimer = setInterval(async () => {
+                console.log('Auto refreshing data...');
+                await fetchSettingsData();
+                await fetchPresensiData();
+                await fetchDatabaseData();
+            }, AUTO_REFRESH_INTERVAL);
+        }
+
+        // Format date for display
+        function formatDate(date) {
+            const d = new Date(date);
+            const day = String(d.getDate()).padStart(2, '0');
+            const month = String(d.getMonth() + 1).padStart(2, '0');
+            const year = d.getFullYear();
+            return `${year}-${month}-${day}`;
+        }
+
+        // Parse time string to Date object
+        function parseTime(timeStr) {
+            // Add seconds if not provided
+            if (timeStr.split(':').length === 2) {
+                timeStr += ':00';
+            }
+            
+            const [hours, minutes, seconds] = timeStr.split(':').map(Number);
+            const date = new Date();
+            date.setHours(hours, minutes, seconds);
+            return date;
+        }
+
+        // Format time for display
+        function formatTime(date) {
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            const seconds = String(date.getSeconds()).padStart(2, '0');
+            return `${hours}:${minutes}:${seconds}`;
+        }
+
+        // Calculate time difference in minutes
+        function getTimeDifferenceInMinutes(time1, time2) {
+            const t1 = parseTime(time1);
+            const t2 = parseTime(time2);
+            return Math.round(Math.abs((t2 - t1) / (1000 * 60)));
+        }
+
+        // Format time difference for display (HH:MM format)
+        function formatTimeDifference(minutes) {
+            const hours = Math.floor(minutes / 60);
+            const mins = minutes % 60;
+            return `${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}`;
+        }
+
+        // Show notification function
+        function showNotification(message, type = 'success') {
+            // Remove any existing notifications
+            const existingNotifications = document.querySelectorAll('.notification');
+            existingNotifications.forEach(notification => {
+                notification.remove();
+            });
+            
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            
+            // Set notification content
+            notification.innerHTML = `
+                <div class="notification-icon mr-3">
+                    <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
+                </div>
+                <div class="flex-grow">${message}</div>
+                <div class="ml-3 cursor-pointer" onclick="this.parentElement.remove()">
+                    <i class="fas fa-times"></i>
+                </div>
+            `;
+            
+            // Add to body
+            document.body.appendChild(notification);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.style.animation = 'slideOut 0.3s ease-in forwards';
+                    setTimeout(() => {
+                        if (notification.parentNode) {
+                            notification.remove();
+                        }
+                    }, 300);
+                }
+            }, 5000);
+        }
+
+        // Login functionality
+        loginBtn.addEventListener('click', () => {
+            if (passwordInput.value === 'bismillahlazis') {
+                loginPage.style.display = 'none';
+                dashboardPage.style.display = 'block';
+                passwordError.classList.add('hidden');
+                showNotification('Login berhasil! Selamat datang di Sistem Presensi LAZIS Sabilillah');
+                
+                // Fetch data after successful login
+                fetchData();
+            } else {
+                passwordError.classList.remove('hidden');
+                passwordInput.focus();
+            }
+        });
+
+        // Enter key for login
+        passwordInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                loginBtn.click();
+            }
+        });
+
+        // Logout functionality
+        logoutBtn.addEventListener('click', () => {
+            // Clear auto refresh timer
+            if (autoRefreshTimer) {
+                clearInterval(autoRefreshTimer);
+                autoRefreshTimer = null;
+            }
+            
+            loginPage.style.display = 'flex';
+            dashboardPage.style.display = 'none';
+            passwordInput.value = '';
+            showNotification('Logout berhasil!');
+        });
+
+        // Update date and time
+        function updateDateTime() {
+            const now = new Date();
+            const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+            const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+            
+            const day = days[now.getDay()];
+            const date = now.getDate();
+            const month = months[now.getMonth()];
+            const year = now.getFullYear();
+            
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            
+            dayDateElement.textContent = `${day}, ${date} ${month} ${year}`;
+            clockElement.textContent = `${hours}:${minutes}:${seconds}`;
+        }
+
+        // Update statistics
+        function updateStats() {
+            const totalPanitia = panitiaData.length;
+            const totalHadir = panitiaData.filter(p => p.hadir).length;
+            const totalTerlambat = panitiaData.filter(p => p.terlambat).length;
+            const totalBelumPresensi = panitiaData.filter(p => !p.hadir).length;
+            const totalSudahPulang = panitiaData.filter(p => p.pulang).length;
+            
+            totalPanitiaElement.textContent = totalPanitia;
+            totalHadirElement.textContent = totalHadir;
+            totalTerlambatElement.textContent = totalTerlambat;
+            totalBelumPresensiElement.textContent = totalBelumPresensi;
+            totalSudahPulangElement.textContent = totalSudahPulang;
+        }
+
+        // Render pagination for presensi
+        function renderPresensiPagination() {
+            const totalPages = Math.ceil(filteredPresensiData.length / rowsPerPage);
+            paginationElement.innerHTML = '';
+            
+            // Previous button
+            const prevBtn = document.createElement('button');
+            prevBtn.innerHTML = '&laquo;';
+            prevBtn.className = 'px-3 py-1 border rounded';
+            prevBtn.disabled = currentPresensiPage === 1;
+            prevBtn.addEventListener('click', () => {
+                if (currentPresensiPage > 1) {
+                    currentPresensiPage--;
+                    renderPresensiTable();
+                }
+            });
+            const prevLi = document.createElement('li');
+            prevLi.appendChild(prevBtn);
+            paginationElement.appendChild(prevLi);
+            
+            // Page numbers
+            for (let i = 1; i <= totalPages; i++) {
+                const pageBtn = document.createElement('button');
+                pageBtn.textContent = i;
+                pageBtn.className = `px-3 py-1 border rounded ${i === currentPresensiPage ? 'bg-green-500 text-white' : ''}`;
+                pageBtn.addEventListener('click', () => {
+                    currentPresensiPage = i;
+                    renderPresensiTable();
+                });
+                const pageLi = document.createElement('li');
+                pageLi.appendChild(pageBtn);
+                paginationElement.appendChild(pageLi);
+            }
+            
+            // Next button
+            const nextBtn = document.createElement('button');
+            nextBtn.innerHTML = '&raquo;';
+            nextBtn.className = 'px-3 py-1 border rounded';
+            nextBtn.disabled = currentPresensiPage === totalPages;
+            nextBtn.addEventListener('click', () => {
+                if (currentPresensiPage < totalPages) {
+                    currentPresensiPage++;
+                    renderPresensiTable();
+                }
+            });
+            const nextLi = document.createElement('li');
+            nextLi.appendChild(nextBtn);
+            paginationElement.appendChild(nextLi);
+        }
+
+        // Render pagination for database
+        function renderDatabasePagination() {
+            const totalPages = Math.ceil(filteredDatabaseData.length / rowsPerPage);
+            databasePagination.innerHTML = '';
+            
+            // Previous button
+            const prevBtn = document.createElement('button');
+            prevBtn.innerHTML = '&laquo;';
+            prevBtn.className = 'px-3 py-1 border rounded';
+            prevBtn.disabled = currentDatabasePage === 1;
+            prevBtn.addEventListener('click', () => {
+                if (currentDatabasePage > 1) {
+                    currentDatabasePage--;
+                    renderDatabaseTable();
+                }
+            });
+            const prevLi = document.createElement('li');
+            prevLi.appendChild(prevBtn);
+            databasePagination.appendChild(prevLi);
+            
+            // Page numbers
+            for (let i = 1; i <= totalPages; i++) {
+                const pageBtn = document.createElement('button');
+                pageBtn.textContent = i;
+                pageBtn.className = `px-3 py-1 border rounded ${i === currentDatabasePage ? 'bg-green-500 text-white' : ''}`;
+                pageBtn.addEventListener('click', () => {
+                    currentDatabasePage = i;
+                    renderDatabaseTable();
+                });
+                const pageLi = document.createElement('li');
+                pageLi.appendChild(pageBtn);
+                databasePagination.appendChild(pageLi);
+            }
+            
+            // Next button
+            const nextBtn = document.createElement('button');
+            nextBtn.innerHTML = '&raquo;';
+            nextBtn.className = 'px-3 py-1 border rounded';
+            nextBtn.disabled = currentDatabasePage === totalPages;
+            nextBtn.addEventListener('click', () => {
+                if (currentDatabasePage < totalPages) {
+                    currentDatabasePage++;
+                    renderDatabaseTable();
+                }
+            });
+            const nextLi = document.createElement('li');
+            nextLi.appendChild(nextBtn);
+            databasePagination.appendChild(nextLi);
+        }
+
+        // Render presensi table
+        function renderPresensiTable() {
+            presensiTableBody.innerHTML = '';
+            
+            if (filteredPresensiData.length === 0) {
+                noDataMessage.classList.remove('hidden');
+                paginationElement.innerHTML = '';
+                return;
+            }
+            
+            noDataMessage.classList.add('hidden');
+            
+            // Calculate pagination
+            const startIndex = (currentPresensiPage - 1) * rowsPerPage;
+            const endIndex = Math.min(startIndex + rowsPerPage, filteredPresensiData.length);
+            const paginatedData = filteredPresensiData.slice(startIndex, endIndex);
+            
+            paginatedData.forEach(item => {
+                const row = document.createElement('tr');
+                row.className = 'hover:bg-gray-50';
+                row.innerHTML = `
+                    <td class="px-4 py-2 border-t">${item.tanggal}</td>
+                    <td class="px-4 py-2 border-t">${item.nik}</td>
+                    <td class="px-4 py-2 border-t">${item.nama}</td>
+                    <td class="px-4 py-2 border-t">${item.jobdisk || ''}</td>
+                    <td class="px-4 py-2 border-t">${item.jam_masuk}</td>
+                    <td class="px-4 py-2 border-t">
+                        <span class="px-2 py-1 rounded-full text-xs ${item.status === 'Terlambat' ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800'}">
+                            ${item.status}
+                        </span>
+                    </td>
+                    <td class="px-4 py-2 border-t">${item.jam_keluar || '-'}</td>
+                    <td class="px-4 py-2 border-t">${item.keterangan || '-'}</td>
+                    <td class="px-4 py-2 border-t">${item.hak || '-'}</td>
+                `;
+                presensiTableBody.appendChild(row);
+            });
+            
+            renderPresensiPagination();
+        }
+
+        // Render database table
+        function renderDatabaseTable() {
+            databaseTableBody.innerHTML = '';
+            
+            if (filteredDatabaseData.length === 0) {
+                noDatabaseMessage.classList.remove('hidden');
+                databasePagination.innerHTML = '';
+                return;
+            }
+            
+            noDatabaseMessage.classList.add('hidden');
+            
+            // Calculate pagination
+            const startIndex = (currentDatabasePage - 1) * rowsPerPage;
+            const endIndex = Math.min(startIndex + rowsPerPage, filteredDatabaseData.length);
+            const paginatedData = filteredDatabaseData.slice(startIndex, endIndex);
+            
+            paginatedData.forEach(item => {
+                const row = document.createElement('tr');
+                row.className = 'hover:bg-gray-50';
+                row.innerHTML = `
+                    <td class="px-4 py-2 border-t">${item.nik}</td>
+                    <td class="px-4 py-2 border-t">${item.nama}</td>
+                    <td class="px-4 py-2 border-t">${item.jobdisk || ''}</td>
+                    <td class="px-4 py-2 border-t">
+                        <span class="px-2 py-1 rounded-full text-xs ${item.status === 'Aktif' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
+                            ${item.status || 'Aktif'}
+                        </span>
+                    </td>
+                    <td class="px-4 py-2 border-t">${item.alamat || '-'}</td>
+                    <td class="px-4 py-2 border-t">${item.whatsapp || '-'}</td>
+                    <td class="px-4 py-2 border-t">${item.hak || '-'}</td>
+                `;
+                databaseTableBody.appendChild(row);
+            });
+            
+            renderDatabasePagination();
+        }
+
+        // Render absent people list
+        function renderAbsentPeopleList() {
+            absentList.innerHTML = '';
+            
+            if (filteredAbsentPeople.length === 0) {
+                noAbsentMessage.classList.remove('hidden');
+                return;
+            }
+            
+            noAbsentMessage.classList.add('hidden');
+            
+            filteredAbsentPeople.forEach(person => {
+                const listItem = document.createElement('div');
+                listItem.className = 'absent-list-item';
+                listItem.innerHTML = `
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <div class="font-medium">${person.nama}</div>
+                            <div class="text-sm text-gray-500">${person.jobdesk || 'Tidak ada jobdesk'}</div>
+                        </div>
+                        <div class="text-sm text-gray-500">NIK: ${person.nik}</div>
+                    </div>
+                `;
+                absentList.appendChild(listItem);
+            });
+        }
+
+        // Search presensi functionality
+        searchBtn.addEventListener('click', () => {
+            const searchTerm = searchInput.value.toLowerCase();
+            
+            if (searchTerm === '') {
+                filteredPresensiData = [...presensiData];
+            } else {
+                filteredPresensiData = presensiData.filter(item => 
+                    (item.nik && item.nik.toLowerCase().includes(searchTerm)) ||
+                    (item.nama && item.nama.toLowerCase().includes(searchTerm)) ||
+                    (item.jobdisk && item.jobdisk.toLowerCase().includes(searchTerm))
+                );
+            }
+            
+            currentPresensiPage = 1;
+            renderPresensiTable();
+            
+            if (filteredPresensiData.length === 0) {
+                showNotification('Tidak ada data yang sesuai dengan pencarian', 'error');
+            } else if (searchTerm !== '') {
+                showNotification(`Ditemukan ${filteredPresensiData.length} data yang sesuai`);
+            }
+        });
+
+        // Search database functionality
+        searchDatabaseBtn.addEventListener('click', () => {
+            const searchTerm = searchDatabase.value.toLowerCase();
+            
+            if (searchTerm === '') {
+                filteredDatabaseData = [...databaseData];
+            } else {
+                filteredDatabaseData = databaseData.filter(item => 
+                    (item.nik && item.nik.toLowerCase().includes(searchTerm)) ||
+                    (item.nama && item.nama.toLowerCase().includes(searchTerm)) ||
+                    (item.jobdisk && item.jobdisk.toLowerCase().includes(searchTerm)) ||
+                    (item.alamat && item.alamat.toLowerCase().includes(searchTerm)) ||
+                    (item.whatsapp && item.whatsapp.toLowerCase().includes(searchTerm))
+                );
+            }
+            
+            currentDatabasePage = 1;
+            renderDatabaseTable();
+            
+            if (filteredDatabaseData.length === 0) {
+                showNotification('Tidak ada data yang sesuai dengan pencarian', 'error');
+            } else if (searchTerm !== '') {
+                showNotification(`Ditemukan ${filteredDatabaseData.length} data yang sesuai`);
+            }
+        });
+
+        // Search absent people functionality
+        searchAbsent.addEventListener('input', () => {
+            const searchTerm = searchAbsent.value.toLowerCase();
+            
+            if (searchTerm === '') {
+                filteredAbsentPeople = [...absentPeople];
+            } else {
+                filteredAbsentPeople = absentPeople.filter(person => 
+                    (person.nama && person.nama.toLowerCase().includes(searchTerm)) ||
+                    (person.jobdesk && person.jobdesk.toLowerCase().includes(searchTerm)) ||
+                    (person.nik && person.nik.toLowerCase().includes(searchTerm))
+                );
+            }
+            
+            renderAbsentPeopleList();
+        });
+
+        // Search on Enter key
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                searchBtn.click();
+            }
+        });
+
+        // Search database on Enter key
+        searchDatabase.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                searchDatabaseBtn.click();
+            }
+        });
+
+        // Date filter functionality
+        filterDateBtn.addEventListener('click', () => {
+            const filterDate = filterDateInput.value;
+            
+            if (filterDate === '') {
+                filteredPresensiData = [...presensiData];
+            } else {
+                filteredPresensiData = presensiData.filter(item => item.tanggal === filterDate);
+            }
+            
+            currentPresensiPage = 1;
+            renderPresensiTable();
+            
+            if (filteredPresensiData.length === 0) {
+                showNotification(`Tidak ada data presensi pada tanggal ${filterDate}`, 'error');
+            } else if (filterDate !== '') {
+                showNotification(`Menampilkan ${filteredPresensiData.length} data presensi pada tanggal ${filterDate}`);
+            }
+        });
+
+        // NIK input for presensi
+        nikInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                submitPresensi();
+            }
+        });
+
+        // Submit presensi to Google Sheets
+        async function submitToGoogleSheets(data) {
+            try {
+                // In a real implementation, you would use fetch to send data to your Google Apps Script
+                // This is just a placeholder to show how it would be done
+                
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                
+                const result = await response.json();
+                return result;
+                
+            } catch (error) {
+                console.error('Error submitting to Google Sheets:', error);
+                throw error;
+            }
+        }
+
+        // Submit presensi functionality
+        async function submitPresensi() {
+            const nik = nikInput.value.trim();
+            
+            if (nik === '') {
+                showNotification('Silakan masukkan NIK terlebih dahulu', 'error');
+                return;
+            }
+            
+            const panitia = panitiaData.find(p => p.nik === nik);
+            
+            if (!panitia) {
+                showNotification(`NIK ${nik} tidak ditemukan dalam database`, 'error');
+                return;
+            }
+            
+            const presensiType = document.querySelector('input[name="presensiType"]:checked').value;
+            const now = new Date();
+            const currentTime = formatTime(now);
+            const today = formatDate(now);
+            
+            try {
+                if (presensiType === 'masuk') {
+                    // Check if already checked in today
+                    const alreadyCheckedIn = presensiData.some(p => 
+                        p.nik === nik && p.tanggal === today
+                    );
+                    
+                    if (alreadyCheckedIn) {
+                        showNotification(`${panitia.nama} sudah melakukan presensi masuk hari ini`, 'error');
+                        return;
+                    }
+                    
+                    // Check if late based on settings
+                    // Get jam masuk from settings or use default
+                    const jamMasukSetting = settingsData.jam_masuk || "08:00";
+                    
+                    // Add seconds if not provided in the setting
+                    const jamMasukWithSeconds = jamMasukSetting.split(':').length === 2 
+                        ? jamMasukSetting + ':00' 
+                        : jamMasukSetting;
+                    
+                    const isTerlambat = getTimeDifferenceInMinutes(jamMasukWithSeconds, currentTime) > 0 && 
+                                        parseTime(currentTime) > parseTime(jamMasukWithSeconds);
+                    
+                    // Calculate time difference for keterangan
+                    let keterangan;
+                    if (isTerlambat) {
+                        const minutesLate = getTimeDifferenceInMinutes(jamMasukWithSeconds, currentTime);
+                        keterangan = `Terlambat ${formatTimeDifference(minutesLate)}`;
+                    } else {
+                        const minutesEarly = getTimeDifferenceInMinutes(jamMasukWithSeconds, currentTime);
+                        keterangan = `Lebih cepat ${formatTimeDifference(minutesEarly)}`;
+                    }
+                    
+                    // Create new presensi entry
+                    const newPresensi = {
+                        tanggal: today,
+                        nik: panitia.nik,
+                        nama: panitia.nama,
+                        jobdisk: panitia.jobdesk,
+                        jam_masuk: currentTime,
+                        jam_keluar: '-',
+                        status: isTerlambat ? 'Terlambat' : 'Tepat Waktu',
+                        keterangan: keterangan,
+                        hak: '-'
+                    };
+                    
+                    // Send data to Google Sheets
+                    try {
+                        // This would be the actual API call in a real implementation
+                        // const result = await submitToGoogleSheets(newPresensi);
+                        
+                        // For now, we'll just simulate a successful API call
+                        console.log('Sending data to Google Sheets:', newPresensi);
+                        
+                        // Update local data after successful API call
+                        presensiData.unshift(newPresensi);
+                        panitia.hadir = true;
+                        panitia.terlambat = isTerlambat;
+                        
+                        showNotification(`Presensi masuk berhasil untuk ${panitia.nama}${isTerlambat ? ' (Terlambat)' : ' (Tepat Waktu)'}`);
+                    } catch (error) {
+                        showNotification('Gagal menyimpan data presensi ke server', 'error');
+                        return;
+                    }
+                    
+                } else {
+                    // Check if already checked in today
+                    const todayPresensi = presensiData.find(p => 
+                        p.nik === nik && p.tanggal === today && p.jam_keluar === '-'
+                    );
+                    
+                    if (!todayPresensi) {
+                        const hasCheckedIn = presensiData.some(p => p.nik === nik && p.tanggal === today);
+                        
+                        if (!hasCheckedIn) {
+                            showNotification(`${panitia.nama} belum melakukan presensi masuk hari ini`, 'error');
+                        } else {
+                            showNotification(`${panitia.nama} sudah melakukan presensi pulang hari ini`, 'error');
+                        }
+                        return;
+                    }
+                    
+                    // Update checkout time
+                    todayPresensi.jam_keluar = currentTime;
+                    
+                    // Get hak from database
+                    const dbPanitia = databaseData.find(p => p.nik === nik);
+                    todayPresensi.hak = dbPanitia && dbPanitia.hak ? dbPanitia.hak : "Daging + Amplop";
+                    
+                    // Send updated data to Google Sheets
+                    try {
+                        // This would be the actual API call in a real implementation
+                        // const result = await submitToGoogleSheets(todayPresensi);
+                        
+                        // For now, we'll just simulate a successful API call
+                        console.log('Sending updated data to Google Sheets:', todayPresensi);
+                        
+                        // Update local data after successful API call
+                        panitia.pulang = true;
+                        
+                        showNotification(`Presensi pulang berhasil untuk ${panitia.nama}`);
+                    } catch (error) {
+                        showNotification('Gagal menyimpan data presensi ke server', 'error');
+                        return;
+                    }
+                }
+                
+                // Update UI
+                updateAttendanceStatus();
+                updateStats();
+                filteredPresensiData = [...presensiData];
+                currentPresensiPage = 1;
+                renderPresensiTable();
+                nikInput.value = '';
+                nikInput.focus();
+                
+            } catch (error) {
+                console.error('Error submitting presensi:', error);
+                showNotification('Terjadi kesalahan saat menyimpan data presensi', 'error');
+            }
+        }
+
+        // Tab switching functionality
+        tabPresensi.addEventListener('click', () => {
+            setActiveTab('presensi');
+        });
+
+        tabDatabase.addEventListener('click', () => {
+            setActiveTab('database');
+        });
+
+        tabSettings.addEventListener('click', () => {
+            setActiveTab('settings');
+        });
+
+        function setActiveTab(tabName) {
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab-btn').forEach(tab => {
+                tab.classList.remove('tab-active');
+            });
+            
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+            
+            // Set active tab and show content
+            if (tabName === 'presensi') {
+                tabPresensi.classList.add('tab-active');
+                presensiContent.classList.remove('hidden');
+            } else if (tabName === 'database') {
+                tabDatabase.classList.add('tab-active');
+                databaseContent.classList.remove('hidden');
+            } else if (tabName === 'settings') {
+                tabSettings.classList.add('tab-active');
+                settingsContent.classList.remove('hidden');
+            }
+        }
+
+        // Radio button styling
+        document.querySelectorAll('input[name="presensiType"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                document.querySelectorAll('.radio-inner').forEach(inner => {
+                    inner.style.opacity = '0';
+                });
+                
+                this.nextElementSibling.querySelector('.radio-inner').style.opacity = '1';
+            });
+        });
+
+        // Refresh button event listeners
+        refreshPresensiBtn.addEventListener('click', refreshPresensiData);
+        refreshDatabaseBtn.addEventListener('click', refreshDatabaseData);
+        refreshSettingsBtn.addEventListener('click', refreshSettingsData);
+
+        // Absent modal functionality
+        belumPresensiCard.addEventListener('click', () => {
+            // Update absent people list before showing modal
+            updateAbsentPeopleList();
+            renderAbsentPeopleList();
+            absentModal.classList.remove('hidden');
+        });
+
+        closeAbsentModal.addEventListener('click', () => {
+            absentModal.classList.add('hidden');
+        });
+
+        closeAbsentBtn.addEventListener('click', () => {
+            absentModal.classList.add('hidden');
+        });
+
+        // Close modal when clicking outside
+        absentModal.addEventListener('click', (e) => {
+            if (e.target === absentModal) {
+                absentModal.classList.add('hidden');
+            }
+        });
+
+        // Initialize
+        updateDateTime();
+        setInterval(updateDateTime, 1000);
+        
+        // Set today's date as default for filter
+        filterDateInput.value = formatDate(new Date());
+        
+        // Initialize radio buttons
+        document.querySelector('input[name="presensiType"]:checked').nextElementSibling.querySelector('.radio-inner').style.opacity = '1';
+        
+        // Auto-submit when NIK is entered
+        nikInput.addEventListener('input', function() {
+            if (this.value.length >= 4) {
+                submitPresensi();
+            }
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9455771746711dd6',t:'MTc0ODE4MDY0Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
