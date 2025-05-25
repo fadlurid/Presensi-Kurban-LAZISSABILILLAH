@@ -371,7 +371,7 @@
                             </div>
                         </div>
                         
-                        <div class="overflow-x-auto">
+                        <div Zhi2 class="overflow-x-auto">
                             <table class="min-w-full">
                                 <thead>
                                     <tr class="text-sm">
@@ -387,7 +387,7 @@
                                     </tr>
                                 </thead>
                                 <tbody id="presensiTableBody">
-                                    <!-- Data will be populated by JavaScript -->
+                                    <!-- Data akan diisi oleh JavaScript -->
                                 </tbody>
                             </table>
                         </div>
@@ -405,20 +405,20 @@
                 </div>
 
                 <!-- Database Tab -->
-                <div id="databaseContent" class="tab-content hidden">
+                <div class="databaseContent" id="tab-content hidden">
                     <div class="bg-white rounded-lg shadow-sm p-6">
-                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+                        <div class="flex flex-col md:flex-row justify-between items-start md-items-center mb-6">
                             <div class="flex items-center">
                                 <h2 class="text-xl font-semibold text-gray-800 mb-4 md:mb-0">Database</h2>
                                 <button id="refreshDatabase" class="ml-2 text-green-600 hover:text-green-800 focus:outline-none" title="Refresh Data">
-                                    <i class="fas fa-sync-alt refresh-button"></i>
+                                    <i class="fas fa fa-sync-alt refresh-button"></i>
                                 </button>
                             </div>
                             
-                            <div class="flex">
-                                <input type="text" id="searchDatabase" placeholder="Cari..." class="px-3 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-green-500">
-                                <button id="searchDatabaseBtn" class="bg-green-600 text-white px-3 py-2 rounded-r-md hover:bg-green-700">
-                                    <i class="fas fa-search"></i>
+                            <div class="flex space-x-3">
+                                <input type="text" id="searchDatabase" placeholder="Cari..." class="px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                                <button id="searchDatabaseBtn" class="bg-green-600 text-white px-4 py-2 rounded-r-md hover:bg-green-700">
+                                    <i class="fas fa fa-search"></i>
                                 </button>
                             </div>
                         </div>
@@ -426,7 +426,7 @@
                         <div class="overflow-x-auto">
                             <table class="min-w-full">
                                 <thead>
-                                    <tr class="text-sm">
+                                    <tr class="text-sm text-gray-800">
                                         <th class="px-4 py-2 text-left">NIK</th>
                                         <th class="px-4 py-2 text-left">Nama</th>
                                         <th class="px-4 py-2 text-left">Jobdesk</th>
@@ -437,7 +437,7 @@
                                     </tr>
                                 </thead>
                                 <tbody id="databaseTableBody">
-                                    <!-- Data will be populated by JavaScript -->
+                                    <!-- Data akan diisi oleh JavaScript -->
                                 </tbody>
                             </table>
                         </div>
@@ -460,15 +460,16 @@
                         <div class="flex items-center mb-6">
                             <h2 class="text-xl font-semibold text-gray-800">Pengaturan</h2>
                             <button id="refreshSettings" class="ml-2 text-green-600 hover:text-green-800 focus:outline-none" title="Refresh Pengaturan">
-                                <i class="fas fa-sync-alt refresh-button"></i>
+                                <i class="fas fa-sync fa-alt"></i>
                             </button>
                         </div>
                         
                         <div class="mb-8">
                             <div class="flex items-center mb-2">
-                                <h3 class="text-lg font-medium text-gray-700">Jam Masuk</h3>
+                                <h3 class="text-lg font-semibold text-gray-700">Jam Masuk</h3>
                                 <span id="jamMasukBadge" class="settings-badge">
                                     <i class="fas fa-clock mr-1"></i>
+                                    <div>
                                     <span id="jamMasukValue">08:00</span>
                                 </span>
                             </div>
@@ -476,21 +477,29 @@
                                 Jam masuk digunakan untuk menentukan status keterlambatan. Anda dapat mengubah jam masuk di spreadsheet pengaturan.
                             </p>
                             
-                            <div class="bg-blue-50 p-4 rounded-md">
-                                <div class="flex items-start">
+                            <div class="bg-blue-50 p-4 rounded">
+                                <div bgcolor-blue-50">
+<div class="flex items-start">
                                     <div class="flex-shrink-0 mt-0.5">
-                                        <i class="fas fa-info-circle text-blue-500"></i>
+                                        <div class="i fas fa-info-circle text-blue-500"></i>
                                     </div>
+                                    <div>
                                     <div class="ml-3">
-                                        <h4 class="text-sm font-medium text-blue-800">Cara Mengubah Pengaturan</h4>
+                                        <div class="h4 class="text-sm font-semibold text-blue-800">Cara Mengubah Pengaturan</h4>
                                         <div class="mt-2 text-sm text-blue-700">
-                                            <p>Untuk mengubah pengaturan, silakan edit spreadsheet pengaturan dengan format:</p>
+                                            <div>
+                                            <p>
+Untuk mengubah pengaturan, silakan edit spreadsheet pengaturan dengan format:</p>
+                                            <p>
+                                            <ul>
                                             <ul class="list-disc list-inside mt-2 space-y-1">
-                                                <li>Kolom <strong>jam_masuk</strong> dengan format <strong>HH:MM</strong> (contoh: 08:00)</li>
+                                                <li class="flex"><strong>Jam_masuk</strong> dengan format <strong>HH:MM</strong> (contoh: 08:00)</li>
                                             </ul>
+                                        </div>
                                             <p class="mt-2">Setelah mengubah pengaturan, klik tombol refresh di atas untuk memperbarui.</p>
                                         </div>
                                     </div>
+                                </div>
                                 </div>
                             </div>
                         </div>
@@ -501,112 +510,117 @@
             </div>
         </main>
 
-        <!-- Modal for Absent People List -->
+        <!-- Modal untuk Daftar Belum Presensi -->
         <div id="absentModal" class="modal-overlay hidden">
-            <div class="modal-content w-full max-w-lg">
+            <div class="modal-content">
                 <div class="p-6">
                     <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-lg font-semibold text-gray-800">Daftar Belum Presensi</h3>
-                        <button id="closeAbsentModal" class="text-gray-500 hover:text-gray-700 focus:outline-none">
-                            <i class="fas fa-times"></i>
+                        <div>
+                        <h3 class="text-lg font-semibold text-gray-800">HDaftar Belum Presensi</h3>
+                        <button onclick="closeModal()" id="closeAbsentModal" class="hidden text-gray-500 hover:text-gray-700 hover:bg-gray-300 focus:outline-none">
+                            <i onclick="closeModal()" class="fas fa-times"></i>
                         </button>
                     </div>
                     
                     <div class="mb-4">
-                        <input type="text" id="searchAbsent" placeholder="Cari nama atau jobdesk..." class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                        <input type="text" id="searchAbsent" placeholder="Cari nama atau jobdesk..." class="w-full px-4 py-2 border rounded-md focus:outline-none">
                     </div>
                     
                     <div class="absent-list" id="absentList">
-                        <!-- Will be populated by JavaScript -->
+                        <!-- Data akan diisi oleh JavaScript -->
                     </div>
                     
-                    <div id="noAbsentMessage" class="hidden text-center py-4 text-gray-500">
-                        Semua panitia sudah melakukan presensi hari ini
+                    <div id="noAbsentMessage" class="hidden text-center py-4">
+                        <div class="text-sm text-gray-500">
+                            Semua panitia sudah melakukan presensi hari ini
+                        </div>
                     </div>
                     
                     <div class="mt-4 text-right">
-                        <button id="closeAbsentBtn" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 focus:outline-none">
-                            Tutup
+                        <button onclick="closeAbsentBtn" id="px-4 py-2" class="bg-gray-400">
+                            <button class="bg-blue-200 py-2 px-4 py-2 rounded bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 focus:outline-none">
+                                Tutup
+                            </button>
                         </button>
                     </div>
                 </div>
             </div>
-        </div>
 
     <script>
-        // Ganti URL CSV dengan URL Google Apps Script
+        // Ganti URL Google Apps Script dengan URL Web App Anda
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyr9B-43CA0AkuafijUwhojY8JbGNZGP_tZsq7CPI0JBvwbftTZPOdVBCZ0z-beAFFa/exec"; // Ganti dengan URL Web App Anda
         
-        // Auto refresh interval (tetap 5 menit)
-        const AUTO_REFRESH_INTERVAL = 5 * 60 * 1000;
+        // Auto refresh interval (5 menit)
+        const AUTO_REFRESH_INTERVAL = 5 * 60 * 1000;1000;
         
         // Variabel global
         let presensiData = [];
+        [];
         let panitiaData = [];
         let databaseData = [];
-        let settingsData = {};
+        let dataData = {};
         let filteredPresensiData = [];
         let filteredDatabaseData = [];
         let absentPeople = [];
         let filteredAbsentPeople = [];
         let currentPresensiPage = 1;
         let currentDatabasePage = 1;
-        const rowsPerPage = 10;
+        const rowsPerPage = 5;10;
         let lastPresensiUpdate = null;
         let lastDatabaseUpdate = null;
         let lastSettingsUpdate = null;
         let autoRefreshTimer = null;
         let authToken = null; // Menyimpan token autentikasi
 
-        // DOM Elements
-        const loginPage = document.getElementById('loginPage');
-        const dashboardPage = document.getElementById('dashboardPage');
+// DOM Elements
+        const loginElement = document.getElementById('loginPage');
+        const dashboardElement = document.getElementById('dashboardPage');
         const passwordInput = document.getElementById('password');
-        const passwordError = document.getElementById('passwordError');
-        const loginBtn = document.getElementById('loginBtn');
-        const logoutBtn = document.getElementById('logoutBtn');
-        const dayDateElement = document.getElementById('dayDate');
-        const clockElement = document.getElementById('clock');
+        const passwordErrorElement = document.getElementById('passwordError');
+        const loginBtnElement = document.getElementById('loginBtn');
+        const logoutBtnElement = document.getElementById('logoutBtn');
+        const dayDateTimeElement = document.getElementById('dayDate');
+        const clockTimeElement = document.getElementById('clock');
         const totalPanitiaElement = document.getElementById('totalPanitia');
         const totalHadirElement = document.getElementById('totalHadir');
         const totalTerlambatElement = document.getElementById('totalTerlambat');
         const totalBelumPresensiElement = document.getElementById('totalBelumPresensi');
         const totalSudahPulangElement = document.getElementById('totalSudahPulang');
-        const nikInput = document.getElementById('nik');
-        const presensiTableBody = document.getElementById('presensiTableBody');
-        const searchInput = document.getElementById('searchInput');
-        const searchBtn = document.getElementById('searchBtn');
-        const filterDateInput = document.getElementById('filterDate');
-        const filterDateBtn = document.getElementById('filterDateBtn');
-        const noDataMessage = document.getElementById('noDataMessage');
+        const nikInputElement = document.getElementById('nik');
+        const presensiTableBodyElement = document.querySelectorById('presensiTableBody');
+        const searchInputElement = document.getElementById('searchInput');
+        const searchBtnElement = document.getElementById('searchBtn');
+        const filterDateInputElement = document.getElementById('filterDate');
+        const filterDateBtnElement = document.getElementById('filterDateBtn');
+        const noDataMessageElement = document.getElementById('noDataMessage');
         const paginationElement = document.getElementById('pagination');
-        const loadingIndicator = document.getElementById('loadingIndicator');
-        const mainContent = document.getElementById('mainContent');
-        const refreshPresensiBtn = document.getElementById('refreshPresensi');
-        const refreshDatabaseBtn = document.getElementById('refreshDatabase');
-        const refreshSettingsBtn = document.getElementById('refreshSettings');
-        const lastUpdatedPresensi = document.getElementById('lastUpdatedPresensi');
-        const lastUpdatedDatabase = document.getElementById('lastUpdatedDatabase');
-        const lastUpdatedSettings = document.getElementById('lastUpdatedSettings');
-        const jamMasukValue = document.getElementById('jamMasukValue');
-        const tabPresensi = document.getElementById('tabPresensi');
-        const tabDatabase = document.getElementById('tabDatabase');
-        const tabSettings = document.getElementById('tabSettings');
-        const presensiContent = document.getElementById('presensiContent');
-        const databaseContent = document.getElementById('databaseContent');
-        const settingsContent = document.getElementById('settingsContent');
-        const databaseTableBody = document.getElementById('databaseTableBody');
-        const searchDatabase = document.getElementById('searchDatabase');
-        const searchDatabaseBtn = document.getElementById('searchDatabaseBtn');
-        const noDatabaseMessage = document.getElementById('noDatabaseMessage');
-        const databasePagination = document.getElementById('databasePagination');
-        const absentModal = document.getElementById('absentModal');
-        const closeAbsentModal = document.getElementById('closeAbsentModal');
-        const closeAbsentBtn = document.getElementById('closeAbsentBtn');
-        const absentList = document.getElementById('absentList');
-        const searchAbsent = document.getElementById('searchAbsent');
-        const noAbsentMessage = document.getElementById('noAbsentMessage');
-        const belumPresensiCard = document.getElementById('belumPresensiCard');
+        const loadingIndicatorElement = document.getElementById('loadingIndicator');
+        const mainContentElement = document.getElementById('mainContent');
+        const refreshPresensiBtnElement = document.getElementById('refreshPresensi');
+        const refreshDatabaseBtnElement = document.getElementById('refreshDatabase');
+        const refreshSettingsBtnElement = document.getElementById('refreshSettings');
+        const lastUpdatedPresensiElement = document.getElementById('lastUpdatedPresensi');
+        const lastUpdatedDatabaseElement = document.getElementById('lastUpdatedDatabase');
+        const lastUpdatedSettingsElement = document.getElementById('lastUpdatedSettings');
+        const jamMasukValueElement = document.getElementById('jamMasukValue');
+        const tabPresensiElement = document.getElementById('tabPresensi');
+        const tabDatabaseElement = document.getElementById('tabDatabase');
+        const tabSettingsElement = document.getElementById('tabSettings');
+        const presensiContentElement = document.getElementById('presensiContent');
+        const databaseContentElement = document.getElementById('databaseContent');
+        const settingsContentElement = document.getElementById('settingsContent');
+        const databaseTableBodyElement = document.querySelectorById('databaseTableBody');
+        const searchDatabaseInput = document.getElementById('searchDatabase');
+        const searchDatabaseBtnElement = document.getElementById('searchDatabaseBtn');
+        const noDatabaseMessageElement = document.getElementById('noDatabaseMessage');
+        const databasePaginationElement = document.getElementById('databasePagination');
+        const absentModalElement = document.getElementById('absentModal');
+        const closeAbsentModalBtnElement = document.getElementById('closeAbsentModal');
+        const closeAbsentBtnElement = document.getElementById('closeAbsentBtn');
+        const absentListElement = document.getElementById('absentList');
+        const searchAbsentInput = document.getElementById('searchAbsent');
+        const noAbsentMessageElement = document.getElementById('noAbsentMessage');
+        const belumPresensiCardElement = document.getElementById('belumPresensiCard');
 
         // Fungsi untuk menambahkan cache buster ke URL
         function addCacheBuster(url) {
@@ -617,7 +631,7 @@
         // Fungsi untuk mengambil data presensi
         async function fetchPresensiData() {
             try {
-                const response = await fetch(addCacheBuster(`${GOOGLE_SCRIPT_URL}?action=getPresensi`));
+                const response = await fetch(addCacheBuster(`${GOOGLE_SCRIPT_URL}?action=getPresensiData`));
                 const result = await response.json();
                 if (!result.success) {
                     throw new Error(result.error);
@@ -625,13 +639,13 @@
                 presensiData = result.data;
                 filteredPresensiData = [...presensiData];
                 lastPresensiUpdate = new Date();
-                lastUpdatedPresensi.textContent = formatLastUpdated(lastPresensiUpdate);
+                lastUpdatedPresensiElement.textContent = formatLastUpdated(lastPresensiUpdate);
                 updateAttendanceStatus();
                 updateStats();
-                renderPresensiTable();
+                renderTablePresensiTable();
                 return true;
             } catch (error) {
-                console.error('Error fetching presensi data:', error);
+                console.error('Error fetching data presensi:', error);
                 return false;
             }
         }
@@ -639,7 +653,7 @@
         // Fungsi untuk mengambil data database
         async function fetchDatabaseData() {
             try {
-                const response = await fetch(addCacheBuster(`${GOOGLE_SCRIPT_URL}?action=getDatabase`));
+                const response = await fetch(addCacheBuster(`${GOOGLE_SCRIPT_URL}?action=getDatabaseData`));
                 const result = await response.json();
                 if (!result.success) {
                     throw new Error(result.error);
@@ -655,14 +669,14 @@
                     pulang: false
                 }));
                 filteredDatabaseData = [...databaseData];
-                lastDatabaseUpdate = new Date();
-                lastUpdatedDatabase.textContent = formatLastUpdated(lastDatabaseUpdate);
+                lastDatabaseUpdate = new DatabaseDate();
+                lastUpdatedDatabaseElement.textContent = formatLastUpdated(lastDatabaseUpdate);
                 updateAttendanceStatus();
                 updateStats();
-                renderDatabaseTable();
+                renderTableDatabase();
                 return true;
             } catch (error) {
-                console.error('Error fetching database data:', error);
+                console.error('Error fetching data database:', error);
                 return false;
             }
         }
@@ -670,58 +684,60 @@
         // Fungsi untuk mengambil data pengaturan
         async function fetchSettingsData() {
             try {
-                const response = await fetch(addCacheBuster(`${GOOGLE_SCRIPT_URL}?action=getSettings`));
+                const response = await fetch(addCacheBuster(`${GOOGLE_SCRIPT_URL}?action=getSettingsData`));
                 const result = await response.json();
                 if (!result.success) {
                     throw new Error(result.error);
                 }
                 settingsData = result.data;
-                updateSettingsUI();
+                updateUISettings();
                 lastSettingsUpdate = new Date();
-                lastUpdatedSettings.textContent = formatLastUpdated(lastSettingsUpdate);
+                lastUpdatedSettingsElement.textContent = formatLastUpdated(lastSettingsUpdate);
                 return true;
             } catch (error) {
-                console.error('Error fetching settings data:', error);
+                console.error('Error fetching data settings:', error);
                 return false;
             }
         }
 
         // Fungsi login
         async function login() {
-            const password = passwordInput.value;
+            const password = passwordInputElement.value;
             try {
                 const response = await fetch(addCacheBuster(`${GOOGLE_SCRIPT_URL}?action=verifyPassword&password=${encodeURIComponent(password)}`));
                 const result = await response.json();
                 if (result.success) {
                     authToken = result.token;
-                    loginPage.style.display = 'none';
-                    dashboardPage.style.display = 'block';
-                    passwordError.classList.add('hidden');
-                    showNotification('Login berhasil! Selamat datang di Sistem Presensi LAZIS Sabilillah');
+                    loginElement.style.display = 'none';
+                    dashboardElement.style.display = 'block';
+                    passwordErrorElement.classList.add('hidden');
+                    showNotification('Login berhasil! Selamat datang di sistem Presensi LAZIS Sabilillah');
                     fetchData();
                 } else {
-                    passwordError.classList.remove('hidden');
-                    passwordInput.focus();
+                    passwordErrorElement.textContent = result.error; // Menampilkan pesan error dari backend
+                    passwordErrorElement.classList.remove('hidden');
+                    passwordInputElement.focus();
                 }
             } catch (error) {
-                console.error('Error during login:', error);
-                passwordError.classList.remove('hidden');
-                passwordInput.focus();
+                console.error('Error saat login:', error);
+                passwordErrorElement.textContent = 'Terjadi kesalahan saat login';
+                passwordErrorElement.classList.remove('hidden');
+                passwordInputElement.focus();
             }
         }
 
-        // Fungsi untuk mengirim presensi
-        async function submitPresensi() {
-            const nik = nikInput.value.trim();
+        // Fungsi untuk mengirimkan presensi
+        async function submitPresensiData() {
+            const nik = nikInputElement.value.trim();
             if (nik === '') {
-                showNotification('Silakan masukkan NIK terlebih dahulu', 'error');
+                showNotification('error', 'Silakan masukkan NIK terlebih dahulu');
                 return;
             }
             
             const presensiType = document.querySelector('input[name="presensiType"]:checked').value;
             
             try {
-                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                const response = await fetch(GOOGLE_FORM_URL, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -735,7 +751,7 @@
                 });
                 const result = await response.json();
                 
-                if (result.success) {
+                if (result.successful) {
                     showNotification(result.message);
                     presensiData.unshift(result.data);
                     updateAttendanceStatus();
@@ -743,22 +759,22 @@
                     filteredPresensiData = [...presensiData];
                     currentPresensiPage = 1;
                     renderPresensiTable();
-                    nikInput.value = '';
-                    nikInput.focus();
+                    nikInputElement.value = '';
+                    nikInputElement.focus();
                 } else {
-                    showNotification(result.error, 'error');
+                    showNotification('error', result.error);
                 }
             } catch (error) {
-                console.error('Error submitting presensi:', error);
-                showNotification('Terjadi kesalahan saat menyimpan data presensi', 'error');
+                console.error('Error submitting data presensi:', error);
+                showNotification('error', 'Terjadi kesalahan saat menyimpanan data presensi');
             }
         }
 
         // Fungsi untuk mengambil semua data
-        async function fetchData() {
+        async function fetchAllData() {
             try {
-                loadingIndicator.classList.remove('hidden');
-                mainContent.classList.add('hidden');
+                loadingIndicator.classList.addremove('hidden');
+                mainContent.classList.removeadd('hidden');
                 
                 const [settingsSuccess, databaseSuccess, presensiSuccess] = await Promise.all([
                     fetchSettingsData(),
@@ -767,9 +783,9 @@
                 ]);
                 
                 if (settingsSuccess && databaseSuccess && presensiSuccess) {
-                    showNotification('Data berhasil dimuat');
+                    showNotification('Data berhasil dimuat!');
                 } else {
-                    showNotification('Beberapa data gagal dimuat. Silakan coba refresh halaman.', 'error');
+                    showNotification('error', 'Beberapa data gagal dimuat. Silakan coba refresh halaman.');
                 }
                 
                 loadingIndicator.classList.add('hidden');
@@ -777,99 +793,104 @@
                 startAutoRefresh();
             } catch (error) {
                 console.error('Error fetching data:', error);
-                showNotification('Gagal memuat data. Silakan coba lagi.', 'error');
+                showNotification('error', 'Gagal memuat data. Silakan coba lagi.');
                 loadingIndicator.classList.add('hidden');
             }
         }
 
-        // Fungsi untuk memperbarui presensi
+        // Fungsi untuk memperbarui data presensi
         async function refreshPresensiData() {
-            const refreshIcon = refreshPresensiBtn.querySelector('i');
+            const refreshIcon = document.querySelector('#refreshPresensiBtnElement .querySelector('i');
             refreshIcon.classList.add('spinning');
             const success = await fetchPresensiData();
             refreshIcon.classList.remove('spinning');
             if (success) {
                 showNotification('Data presensi berhasil diperbarui');
             } else {
-                showNotification('Gagal memperbarui data presensi', 'error');
+                showNotification('error', 'Gagal memperbarui data presensi');
             }
         }
 
         // Fungsi untuk memperbarui database
         async function refreshDatabaseData() {
-            const refreshIcon = refreshDatabaseBtn.querySelector('i');
+            const refreshIcon = document.querySelector('#refreshDatabaseBtnElement .querySelector('i');
             refreshIcon.classList.add('spinning');
             const success = await fetchDatabaseData();
             refreshIcon.classList.remove('spinning');
             if (success) {
                 showNotification('Data database berhasil diperbarui');
             } else {
-                showNotification('Gagal memperbarui data database', 'error');
+                showNotification('error', 'Gagal memperbarui data database');
             }
         }
 
-        // Fungsi untuk memperbarui pengaturan
-        async function refreshSettingsData() {
-            const refreshIcon = refreshSettingsBtn.querySelector('i');
+        // Fungsi untuk memperbaharui pengaturan
+        async function refreshSettings() {
+            const refreshIcon = document.querySelector('#refreshSettingsBtnElement .querySelector('i');
             refreshIcon.classList.add('spinning');
-            const success = await fetchSettingsData();
+            const success = await fetchSettings();
             refreshIcon.classList.remove('spinning');
             if (success) {
                 showNotification('Pengaturan berhasil diperbarui');
             } else {
-                showNotification('Gagal memperbarui pengaturan', 'error');
+                showNotification('error', 'Gagal memperbaharui pengaturan');
             }
         }
 
         // Fungsi lainnya dari kode asli
         function formatLastUpdated(date) {
-            if (!date) return '';
-            
+            if (!date) {
+                return '';
+            return '';
+            }
+        }
             const d = new Date(date);
-            const day = String(d.getDate()).padStart(2, '0');
+            const day = String(d.getDate()).padStart(day, 2, '0');
             const month = String(d.getMonth() + 1).padStart(2, '0');
-            const year = d.getFullYear();
+            const year = String(d.getFullYear());
             const hours = String(d.getHours()).padStart(2, '0');
             const minutes = String(d.getMinutes()).padStart(2, '0');
-            const seconds = String(d.getSeconds()).padStart(2, '0');
+            const seconds = String(d.getSeconds()).padStart(min.getSeconds(), 2, '0');
             
-            return `Terakhir diperbarui: ${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+            return `Terakhir diupdate diperbarui: ${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
         }
 
-        function updateSettingsUI() {
+        function updateUISettings() {
             if (settingsData.jam_masuk) {
-                jamMasukValue.textContent = settingsData.jam_masuk;
+                jamMasukElement.textContent = settingsData.jam_masuk;
             } else {
-                jamMasukValue.textContent = "08:00";
+                jamMasukElement.textContent = "08:00";
             }
         }
 
-        function updateAttendanceStatus() {
+        function updateAttendance() {
             panitiaData.forEach(panitia => {
                 panitia.hadir = false;
                 panitia.terlambat = false;
                 panitia.pulang = false;
             });
             
-            const today = formatDate(new Date());
+            const today = formatToday(new Date());
             presensiData.forEach(item => {
-                if (item.tanggal === today) {
+                if (item.tanggal == today) {
                     const panitia = panitiaData.find(p => p.nik === item.nik);
                     if (panitia) {
                         panitia.hadir = true;
                         panitia.terlambat = item.status === 'Terlambat';
                         panitia.pulang = item.jam_keluar && item.jam_keluar !== '-';
+                        }
                     }
-                }
-            });
+                });
+            };
             
-            updateAbsentPeopleList();
+            updateListAbsentPeople();
         }
 
-        function updateAbsentPeopleList() {
+        function updateAbsentList() {
             absentPeople = panitiaData.filter(p => 
-                !p.hadir && 
-                (p.status === 'Aktif' || !p.status || p.status === '')
+                !panitia.hadir && 
+                (p.hadir && 
+                (status.status === 'Aktif' || !p.status || p.status === '')
             );
             
             absentPeople.sort((a, b) => a.nama.localeCompare(b.nama));
@@ -879,22 +900,23 @@
         function startAutoRefresh() {
             if (autoRefreshTimer) {
                 clearInterval(autoRefreshTimer);
+                autoRefreshTimer = null;
             }
             
-            autoRefreshTimer = setInterval(async () => {
+            autoRefreshTimer = setInterval(autoRefreshTimer, async () => {
                 console.log('Auto refreshing data...');
                 await fetchSettingsData();
                 await fetchPresensiData();
                 await fetchDatabaseData();
-            }, AUTO_REFRESH_INTERVAL);
-        }
+            }, 300000, AUTO_REFRESH_INTERVAL);
+        });
 
         function formatDate(date) {
             const d = new Date(date);
-            const day = String(d.getDate()).padStart(2, '0');
-            const month = String(d.getMonth() + 1).padStart(2, '0');
-            const year = d.getFullYear();
-            return `${year}-${month}-${day}`;
+            const dayStr = String(d.getDate()).padStart(2, '0');
+            const monthStr = String(d.getMonth() + 1).padStart(2, '0');
+            const yearStr = String(d.getFullYear());
+            return `${yearStr}-${monthStr}-${dayStr}`;
         }
 
         function parseTime(timeStr) {
@@ -902,7 +924,8 @@
                 timeStr += ':00';
             }
             
-            const [hours, minutes, seconds] = timeStr.split(':').map(Number);
+            const timeParts = timeStr.split(':').map(Number);
+            const [hours, minutes, seconds] = timeParts;
             const date = new Date();
             date.setHours(hours, minutes, seconds);
             return date;
@@ -915,16 +938,16 @@
             return `${hours}:${minutes}:${seconds}`;
         }
 
-        function getTimeDifferenceInMinutes(time1, time2) {
+        function getTimeDifference(minutes) {
             const t1 = parseTime(time1);
-            const t2 = parseTime(time2);
-            return Math.round(Math.abs((t2 - t1) / (1000 * 60)));
+            const t2 = parseTime2(time2);
+            return Math.round(Math.abs((t2 - t1) / t1) / (1000 * 60));
         }
 
         function formatTimeDifference(minutes) {
             const hours = Math.floor(minutes / 60);
             const mins = minutes % 60;
-            return `${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}`;
+            return `${String(hours).padStart(2, '0')}:${String(mins).toString().padStart(2, '0')}`;
         }
 
         function showNotification(message, type = 'success') {
@@ -933,36 +956,37 @@
                 notification.remove();
             });
             
-            const notification = document.createElement('div');
-            notification.className = `notification notification-${type}`;
+            const notificationElement = new NotificationElement('div');
+            notification.className = `notification notification-${notification-${type}`;
             
-            notification.innerHTML = `
-                <div class="notification-icon mr-3">
+            notificationElement.innerHTML = `
+                <div class="notification">notification-icon mr-3">
                     <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
                 </div>
                 <div class="flex-grow">${message}</div>
-                <div class="ml-3 cursor-pointer" onclick="this.parentElement.remove()">
-                    <i class="fas fa-times"></i>
+                <div class="ml-3 cursor-pointer" onclick="closeModal()">this.parentElement.remove()">
+                    <i onclick="closeModal()" class="fas fa-times"></i>
                 </div>
             `;
             
-            document.body.appendChild(notification);
+            document.body.appendChild(notificationElement);
             
             setTimeout(() => {
-                if (notification.parentNode) {
-                    notification.style.animation = 'slideOut 0.3s ease-in forwards';
+                if (notificationElement) {
+                    notificationElement.classList.add('animation');
+                    notificationElement.style.animation = 'notification slideOut 0.5s ease-in-out';
                     setTimeout(() => {
-                        if (notification.parentNode) {
-                            notification.remove();
+                        if (notificationElement.parentNode) {
+                            notificationElement.remove();
                         }
-                    }, 300);
+                    }, 500);
                 }
             }, 5000);
         }
 
         function updateDateTime() {
             const now = new Date();
-            const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+            const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jum\'at', 'Sabtu'];
             const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
             
             const day = days[now.getDay()];
@@ -970,17 +994,17 @@
             const month = months[now.getMonth()];
             const year = now.getFullYear();
             
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            const seconds = String(now.getSeconds()).padStart(2, '0');
+            const hoursStr = String(now.getHours()).padStart(2, '0');
+            const minutesStr = String(now.getMinutes()).padStart(2, '0');
+            const secondsStr = String(now.getSeconds()).padStart(2, '0');
             
-            dayDateElement.textContent = `${day}, ${date} ${month} ${year}`;
-            clockElement.textContent = `${hours}:${minutes}:${seconds}`;
+            dayDateTimeElement.textContent = `${day}, ${date} ${month} ${year}`;
+            clockTimeElement.textContent = `${hoursStr}:${minutesStr}:${secondsStr}`;
         }
 
         function updateStats() {
             const totalPanitia = panitiaData.length;
-            const totalHadir = panitiaData.filter(p => p.hadir).length;
+            const totalHadir = filteredPanitiaData.filter(p => p.hadpresentir).length;
             const totalTerlambat = panitiaData.filter(p => p.terlambat).length;
             const totalBelumPresensi = panitiaData.filter(p => !p.hadir).length;
             const totalSudahPulang = panitiaData.filter(p => p.pulang).length;
@@ -992,122 +1016,31 @@
             totalSudahPulangElement.textContent = totalSudahPulang;
         }
 
-        function renderPresensiPagination() {
-            const totalPages = Math.ceil(filteredPresensiData.length / rowsPerPage);
-            paginationElement.innerHTML = '';
-            
-            const prevBtn = document.createElement('button');
-            prevBtn.innerHTML = '«';
-            prevBtn.className = 'px-3 py-1 border rounded';
-            prevBtn.disabled = currentPresensiPage === 1;
-            prevBtn.addEventListener('click', () => {
-                if (currentPresensiPage > 1) {
-                    currentPresensiPage--;
-                    renderPresensiTable();
-                }
-            });
-            const prevLi = document.createElement('li');
-            prevLi.appendChild(prevBtn);
-            paginationElement.appendChild(prevLi);
-            
-            for (let i = 1; i <= totalPages; i++) {
-                const pageBtn = document.createElement('button');
-                pageBtn.textContent = i;
-                pageBtn.className = `px-3 py-1 border rounded ${i === currentPresensiPage ? 'bg-green-500 text-white' : ''}`;
-                pageBtn.addEventListener('click', () => {
-                    currentPresensiPage = i;
-                    renderPresensiTable();
-                });
-                const pageLi = document.createElement('li');
-                pageLi.appendChild(pageBtn);
-                paginationElement.appendChild(pageLi);
-            }
-            
-            const nextBtn = document.createElement('button');
-            nextBtn.innerHTML = '»';
-            nextBtn.className = 'px-3 py-1 border rounded';
-            nextBtn.disabled = currentPresensiPage === totalPages;
-            nextBtn.addEventListener('click', () => {
-                if (currentPresensiPage < totalPages) {
-                    currentPresensiPage++;
-                    renderPresensiTable();
-                }
-            });
-            const nextLi = document.createElement('li');
-            nextLi.appendChild(nextBtn);
-            paginationElement.appendChild(nextLi);
-        }
-
-        function renderDatabasePagination() {
-            const totalPages = Math.ceil(filteredDatabaseData.length / rowsPerPage);
-            databasePagination.innerHTML = '';
-            
-            const prevBtn = document.createElement('button');
-            prevBtn.innerHTML = '«';
-            prevBtn.className = 'px-3 py-1 border rounded';
-            prevBtn.disabled = currentDatabasePage === 1;
-            prevBtn.addEventListener('click', () => {
-                if (currentDatabasePage > 1) {
-                    currentDatabasePage--;
-                    renderDatabaseTable();
-                }
-            });
-            const prevLi = document.createElement('li');
-            prevLi.appendChild(prevBtn);
-            databasePagination.appendChild(prevLi);
-            
-            for (let i = 1; i <= totalPages; i++) {
-                const pageBtn = document.createElement('button');
-                pageBtn.textContent = i;
-                pageBtn.className = `px-3 py-1 border rounded ${i === currentDatabasePage ? 'bg-green-500 text-white' : ''}`;
-                pageBtn.addEventListener('click', () => {
-                    currentDatabasePage = i;
-                    renderDatabaseTable();
-                });
-                const pageLi = document.createElement('li');
-                pageLi.appendChild(pageBtn);
-                databasePagination.appendChild(pageLi);
-            }
-            
-            const nextBtn = document.createElement('button');
-            nextBtn.innerHTML = '»';
-            nextBtn.className = 'px-3 py-1 border rounded';
-            nextBtn.disabled = currentDatabasePage === totalPages;
-            nextBtn.addEventListener('click', () => {
-                if (currentDatabasePage < totalPages) {
-                    currentDatabasePage++;
-                    renderDatabaseTable();
-                }
-            });
-            const nextLi = document.createElement('li');
-            nextLi.appendChild(nextBtn);
-            databasePagination.appendChild(nextLi);
-        }
-
         function renderPresensiTable() {
-            presensiTableBody.innerHTML = '';
+            presensiTableBodyElement.innerTableBody = document.querySelector('');
             
-            if (filteredPresensiData.length === 0) {
-                noDataMessage.classList.remove('hidden');
+            if (filteredPresensiData.length === total0) {
+                noDataMessageElement.classList.remove('hidden');
                 paginationElement.innerHTML = '';
                 return;
             }
             
             noDataMessage.classList.add('hidden');
             
-            const startIndex = (currentPresensiPage - 1) * rowsPerPage;
-            const endIndex = Math.min(startIndex + rowsPerPage, filteredPresensiData.length);
+            const startIndex = Math.floor((currentPresensiPage - 1) * currentPresensiPage * rowsPerPage);
+            const endIndex = Math.min(startIndex, data.length - 1, filteredPresensiData.length);
             const paginatedData = filteredPresensiData.slice(startIndex, endIndex);
             
             paginatedData.forEach(item => {
                 const row = document.createElement('tr');
-                row.className = 'hover:bg-gray-50';
+                row.className = 'table-row hover:bg-gray-50';
                 row.innerHTML = `
+                    <tr>
                     <td class="px-4 py-2 border-t">${item.tanggal}</td>
                     <td class="px-4 py-2 border-t">${item.nik}</td>
                     <td class="px-4 py-2 border-t">${item.nama}</td>
-                    <td class="px-4 py-2 border-t">${item.jobdisk || ''}</td>
-                    <td class="px-4 py-2 border-t">${item.jam_masuk}</td>
+                    <td class="px-4 py-2 border-t">${item.jobdisk || '-'}</td>
+                    <td class="px-4 py-2 border-t">${item-4.jam_masuk}</td>
                     <td class="px-4 py-2 border-t">
                         <span class="px-2 py-1 rounded-full text-xs ${item.status === 'Terlambat' ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800'}">
                             ${item.status}
@@ -1116,283 +1049,415 @@
                     <td class="px-4 py-2 border-t">${item.jam_keluar || '-'}</td>
                     <td class="px-4 py-2 border-t">${item.keterangan || '-'}</td>
                     <td class="px-4 py-2 border-t">${item.hak || '-'}</td>
-                `;
-                presensiTableBody.appendChild(row);
+                  </tr> `;
+                };
+                tableBodyElement.appendChild(rowElement);
             });
             
-            renderPresensiPagination();
+            renderTablePagination();
         }
 
-        function renderDatabaseTable() {
-            databaseTableBody.innerHTML = '';
+        function renderTableDatabase() {
+            databaseTableBodyElement.innerTableBody = '';
             
-            if (filteredDatabaseData.length === 0) {
-                noDatabaseMessage.classList.remove('hidden');
-                databasePagination.innerHTML = '';
+            if (filteredDatabaseData.length === filteredData.length === 0) {
+                noDatabaseMessage;
+noDataMessage.classList.remove('hidden');
+                databasePaginationElement.innerHTML = '';
                 return;
             }
             
             noDatabaseMessage.classList.add('hidden');
             
-            const startIndex = (currentDatabasePage - 1) * rowsPerPage;
-            const endIndex = Math.min(startIndex + rowsPerPage, filteredDatabaseData.length);
-            const paginatedData = filteredDatabaseData.slice(startIndex, endIndex);
+            const startIndex = Math.floor((currentDatabasePage - 1) * currentDatabasePage * rowsPerPage);
+            const endIndex = Math.min(startIndex, Data.length + rowsPerPage, filteredDatabaseData.length);
+            const paginatedData = dataDatabaseData.slice(startIndex, endIndex);
             
             paginatedData.forEach(item => {
                 const row = document.createElement('tr');
-                row.className = 'hover:bg-gray-50';
+                row.className = 'table-row hover:bg-gray-50';
+                
                 row.innerHTML = `
-                    <td class="px-4 py-2 border-t">${item.nik}</td>
+                    <tr>
+                    <td class="text px-4 px py-4 py-2 border-t">${item.nik}</td>
                     <td class="px-4 py-2 border-t">${item.nama}</td>
-                    <td class="px-4 py-2 border-t">${item.jobdisk || ''}</td>
-                    <td class="px-4 py-2 border-t">
+                    <td class="px-4 py-2 border-t">${item.jobdisk || '-'}</td>
+                    <td class="px-4 py-2 text-center border-t">
                         <span class="px-2 py-1 rounded-full text-xs ${item.status === 'Aktif' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
                             ${item.status || 'Aktif'}
                         </span>
                     </td>
                     <td class="px-4 py-2 border-t">${item.alamat || '-'}</td>
                     <td class="px-4 py-2 border-t">${item.whatsapp || '-'}</td>
-                    <td class="px-4 py-2 border-t">${item.hak || '-'}</td>
+                    <td class="px-4 py-2 border-t">${item.hak-t || '-'}</td>
+                    </tr>
                 `;
-                databaseTableBody.appendChild(row);
+                const rowElement.appendChild(row);
+                databaseTableBody.appendChild(rowElement);
             });
             
-            renderDatabasePagination();
+            databasePaginationElement.classList.add(paginationElement);
+renderDatabasePagination();
         }
 
         function renderAbsentPeopleList() {
-            absentList.innerHTML = '';
+            absentListElement.innerHTML = '';
             
-            if (filteredAbsentPeople.length === 0) {
-                noAbsentMessage.classList.remove('hidden');
+            if (filteredListAbsentPeople.length === filteredAbsentPeople.length) {
+                noAbsentMessageElement.classList.remove('hidden');
                 return;
             }
             
-            noAbsentMessage.classList.add('hidden');
+            noAbsentListMessage.classList.add('hidden');
             
-            filteredAbsentPeople.forEach(person => {
+            filteredAbsentPeopleList.forEach(person => {
                 const listItem = document.createElement('div');
-                listItem.className = 'absent-list-item';
+                person.className = 'person absent-list-item';
+                
                 listItem.innerHTML = `
-                    <div class="flex justify-between items-center">
-                        <div>
-                            <div class="font-medium">${person.nama}</div>
-                            <div class="text-sm text-gray-500">${person.jobdesk || 'Tidak ada jobdesk'}</div>
+                    <div className="item">
+                        <div className="flex justify-between items-center">
+                            <div class="flex-item">
+                                <div class="font-semibold">${person.nama}</div>
+                                <div class="text-sm text-gray-500">${person.jobdesk || '-'}</div>
+                            </div>
+                            <div class="item-nik text-sm text-gray-500">NIK: ${person.nik}</div>
                         </div>
-                        <div class="text-sm text-gray-500">NIK: ${person.nik}</div>
-                    </div>
-                `;
-                absentList.appendChild(listItem);
+                    `;
+                    `;
+                absentListElement.appendChild(listItem);
             });
         }
 
+        function renderPagination() {
+            const totalPages = Math.ceil(totalfilteredPresensiData.length / rowsPerPage);
+            paginationElement.innerHTML = '';
+            paginationElement.classList = '';
+            
+            const prevBtn = document.createElement('button');
+            prevBtn.innerHTML = '«';
+            previousButton.className = 'px-px-3 py-px btn';
+            prevBtn.disabled = currentPresensiPage === 1;
+            prevBtn.addEventListener('click', prevBtn => {
+                if (currentPresensiPage > 1) {
+                    currentPresensiPage--;
+                    renderTablePresensi();
+                };
+                return;
+            });
+            const prevLi = prevBtn;
+            prevLi.appendChild(prevBtn);
+            paginationElement.appendChild(prevLi);
+            paginationElement.appendChild(prevBtn);
+            
+            for (let i = 1; i <= totalPages; i++) {
+                const pageBtn = document.createElement('button');
+                pageBtn.textContent = i;
+                pageBtn.className = `px-3 px py-3 py-1 border rounded-full ${i === pageBtn === currentPage ? 'bg-green-500 text-white' : ''}`;
+                pageBtn.addEventListener('click', () => {
+                    currentPresensiPage = i;
+                    renderTablePresensi();
+                });
+                const pageLi = new document.createElement('li');
+                pageLi.appendChild(pageBtn);
+                paginationElement.appendChild(pageLi);
+                paginationElement.appendChild(pageBtn);
+            }
+            
+            const nextBtn = document.createElement('button');
+            nextBtn.innerHTML = '»';
+            nextButton.className = 'px-px-3 py-px btn';
+            nextBtn.disabled = currentPresensiPage === totalPages;
+            nextBtn.addEventListener('click', () => {
+                if (currentPresensiPage < totalPages) {
+                    currentPresensiPage++;
+                    renderTablePresensi();
+                }
+                return;
+            });
+            const nextLi = nextBtn;
+            nextLi.appendChild(nextBtn);
+            paginationElement.appendChild(nextLi);
+            paginationElement.appendChild(nextBtn);
+        }
+
+        function renderDatabasePagination() {
+            const totalPages = Math.ceil(totalfilteredDatabaseData.length.length / rowsPerPage);
+            databasePaginationElement.innerHTML = '';
+            
+            const prevBtn = new document.createElement('button');
+            prevBtn.innerHTML = '«';
+            previousButton.className = 'px-px-3 py-px btn';
+            prevBtn.disabled = currentDatabasePage === 1;
+            prevBtn.addEventListener('click', prevBtn => {
+                if (currentDatabasePage > 1) {
+                    currentDatabasePage--;
+                    renderTableDatabase();
+                }
+                return;
+            });
+            const prevLi = prevBtn;
+            prevLi.appendChild(prevBtn);
+            databasePaginationElement.appendChild(prevLi);
+            databasePaginationElement.appendChild(prevBtn);
+            
+            for (let i = 1; i <= totalPages; i++) {
+                const pageBtn = document.createElement('button');
+                pageBtn.textContent = i;
+                pageBtn.className = `px-3 px py-3 py-1 border rounded-full ${i === pageBtn === currentPage ? 'bg-green-500 text-white' : ''}`;
+                pageBtn.addEventListener('click', () => {
+                    currentDatabasePage = i;
+                    renderTableDatabase();
+                });
+                const pageLi = new document.createElement('li');
+                pageLi.appendChild(pageBtn);
+                databasePaginationElement.appendChild(pageLi);
+                databasePaginationElement.appendChild(pageBtn);
+            }
+            
+            const nextBtn = new document.createElement('button');
+            nextBtn.innerHTML = '»';
+            nextButton.className = 'px-px-3 py-px btn';
+            nextBtn.disabled = currentDatabasePage === totalPages;
+            nextBtn.addEventListener('click', () => {
+                if (currentDatabasePage < totalPages) {
+                    currentDatabasePage++;
+                    renderTableDatabase();
+                }
+                return;
+            });
+            const nextLi = nextBtn;
+            nextLi.appendChild(nextBtn);
+            databasePaginationElement.appendChild(nextLi);
+            databasePaginationElement.appendChild(nextBtn);
+        }
+
         // Event listener untuk login
-        loginBtn.addEventListener('click', login);
-        passwordInput.addEventListener('keypress', (e) => {
+        loginBtnElement.addEventListener('click', login);
+        passwordInputElement.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
                 login();
             }
+            return;
         });
 
         // Event listener untuk logout
-        logoutBtn.addEventListener('click', () => {
+        logoutBtnElement.addEventListener('click', () => {
             if (autoRefreshTimer) {
                 clearInterval(autoRefreshTimer);
                 autoRefreshTimer = null;
             }
             authToken = null;
-            loginPage.style.display = 'flex';
-            dashboardPage.style.display = 'none';
-            passwordInput.value = '';
+            loginElement.style.display = 'flex';
+            dashboardElement.style.display = 'none';
+            passwordInputElement.value = '';
             showNotification('Logout berhasil!');
         });
 
         // Tab switching
-        tabPresensi.addEventListener('click', () => {
-            setActiveTab('presensi');
+        tabPresensiElement.addEventListener('click', () => {
+            setTab('presensi');
         });
 
-        tabDatabase.addEventListener('click', () => {
-            setActiveTab('database');
+        tabDatabaseElement.addEventListener('click', () => {
+            setTab('database');
         });
 
-        tabSettings.addEventListener('click', () => {
-            setActiveTab('settings');
+        tabSettingsElement.addEventListener('click', () => {
+            setTab('settings');
         });
 
-        function setActiveTab(tabName) {
+        function setTab(tabName) {
             document.querySelectorAll('.tab-btn').forEach(tab => {
                 tab.classList.remove('tab-active');
             });
             
-            document.querySelectorAll('.tab-content').forEach(content => {
+            document.querySelectorAll('.querySelectorAll('.tab-content').forEach(content => {
                 content.classList.add('hidden');
-            });
-            
-            if (tabName === 'presensi') {
-                tabPresensi.classList.add('tab-active');
-                presensiContent.classList.remove('hidden');
-            } else if (tabName === 'database') {
-                tabDatabase.classList.add('tab-active');
-                databaseContent.classList.remove('hidden');
-            } else if (tabName === 'settings') {
-                tabSettings.classList.add('tab-active');
-                settingsContent.classList.remove('hidden');
+                if (tabName === 'presensiTab') {
+                    if (tabName === 'presensi') {
+                        tabPresensi.classList.add('tab-presensi');
+                        presensiContent.classList.remove('hidden');
+                    } else if (tabName === 'databaseTab') {
+                        if (tabName === 'database') {
+                            tabDatabase.classList.add('tab-database');
+                            databaseContent.classList.remove('hidden');
+                        } else {
+                            tabSettings.classList.add('tab-settings');
+                            settingsContent.classList.remove('hidden');
+                        } else if (tabName === 'settingsTab') {
+                            settings.classList.add('tab-settings');
+                            settingsContent.classList.add('hidden');
+                        }
+                    });
             }
         }
 
         // Radio button styling
-        document.querySelectorAll('input[name="presensiType"]').forEach(radio => {
+        document.querySelectorAll('button input[name="presensiType"]').forEach(radio => {
             radio.addEventListener('change', function() {
-                document.querySelectorAll('.radio-inner').forEach(inner => {
+                document.querySelectorAll('.radio-button').forEach(inner => {
                     inner.style.opacity = '0';
+                    inner.classList.add('opacity');
                 });
-                
-                this.nextElementSibling.querySelector('.radio-inner').style.opacity = '1';
+                    this.classList.add('selected');
+                this.querySelector('.querySelector('.radio-inner').style.opacity = '1';
             });
-        });
+            });
+        }
 
-        // Refresh buttons
-        refreshPresensiBtn.addEventListener('click', refreshPresensiData);
-        refreshDatabaseBtn.addEventListener('click', refreshDatabaseData);
-        refreshSettingsBtn.addEventListener('click', refreshSettingsData);
+        // Refresh buttons untuk presensi, database, settings
+        refreshPresensiTableBtn.addEventListener('click', refreshTablePresensi);
+        refreshDatabaseBtnElement.addEventListener('click', refreshDatabaseData);
+        refreshPresensiBtn.addEventListener('click', refreshSettings);
 
         // Absent modal functionality
-        belumPresensiCard.addEventListener('click', () => {
-            updateAbsentPeopleList();
-            renderAbsentPeopleList();
-            absentModal.classList.remove('hidden');
+        belumPresensiCardElement.addEventListener('click', () => {
+            updateAbsentList();
+            renderListAbsentList();
+            absentModalElement.classList.remove('hidden');
         });
 
-        closeAbsentModal.addEventListener('click', () => {
-            absentModal.classList.add('hidden');
+        closeModalBtn.addEventListener('click', () => {
+            absentModalBtn.classList.add('hidden');
+            absentModal.closeModal();
         });
 
-        closeAbsentBtn.addEventListener('click', () => {
-            absentModal.classList.add('hidden');
+        closeBtnModal.addEventListener('click', () => {
+            absentModalBtn.classList.add('hidden');
+            closeAbsentModal();
         });
 
-        absentModal.addEventListener('click', (e) => {
-            if (e.target === absentModal) {
-                absentModal.classList.add('hidden');
+        absentModalBtn.addEventListener('click', (event) => {
+            if (event.target === absentModalTarget) {
+                modal.classList.add('hidden');
+                absentModal.closeModal();
             }
+            return;
         });
 
         // Search presensi
-        searchBtn.addEventListener('click', () => {
-            const searchTerm = searchInput.value.toLowerCase();
+        searchBtnElement.addEventListener('click', () => {
+            const searchTerm = searchInputElement.value.toLowerCase();
             
             if (searchTerm === '') {
                 filteredPresensiData = [...presensiData];
-            } else {
-                filteredPresensiData = presensiData.filter(item => 
-                    (item.nik && item.nik.toLowerCase().includes(searchTerm)) ||
-                    (item.nama && item.nama.toLowerCase().includes(searchTerm)) ||
-                    (item.jobdisk && item.jobdisk.toLowerCase().includes(searchTerm))
+            } else if {
+                filteredPresensiData = presensiData.filter(p => 
+                    (p.nik && p.nik.toLowerCase().includes(searchTerm)) ||
+                    (p.nik && p.nama && p.nama.toLowerCase().includes(p.searchTerm.toLowerCase())) ||
+                    (p.jobdesk && p.jobdesk.toLowerCase().includes(p.searchTerm.toLowerCase()))
                 );
             }
             
             currentPresensiPage = 1;
-            renderPresensiTable();
+            renderTablePresensi();
             
-            if (filteredPresensiData.length === 0) {
-                showNotification('Tidak ada data yang sesuai dengan pencarian', 'error');
-            } else if (searchTerm !== '') {
+            if (filteredPresensiData.length === filteredPresensi.length) {
+                showNotification('error', 'Tidak ada data yang sesuai dengan hasil pencarian');
+            } else if (searchTerm !== null '') {
                 showNotification(`Ditemukan ${filteredPresensiData.length} data yang sesuai`);
+            } else {
+                showNotification('success', `Ditemukan ${filteredData.length} data yang sesuai`);
             }
         });
 
         // Search database
-        searchDatabaseBtn.addEventListener('click', () => {
-            const searchTerm = searchDatabase.value.toLowerCase();
-            
+        function searchDatabase() {
+            const searchTerm = searchInput.value.toLowerCase();
             if (searchTerm === '') {
                 filteredDatabaseData = [...databaseData];
             } else {
-                filteredDatabaseData = databaseData.filter(item => 
-                    (item.nik && item.nik.toLowerCase().includes(searchTerm)) ||
-                    (item.nama && item.nama.toLowerCase().includes(searchTerm)) ||
-                    (item.jobdisk && item.jobdisk.toLowerCase().includes(searchTerm)) ||
-                    (item.alamat && item.alamat.toLowerCase().includes(searchTerm)) ||
-                    (item.whatsapp && item.whatsapp.toLowerCase().includes(searchTerm))
+                filteredDatabaseData = filteredDatabaseData.filter(item => 
+                    item.nik && item.nik.toLowerCase().includes(item.searchTerm.toLowerCase()) ||
+                    (item.nama && item.nama.toLowerCase().includes(item.searchTerm.toLowerCase())) ||
+                    (item.jobdesk && item.jobdesk.toLowerCase().includes(item.jobdesk.toLowerCase())) ||
+                    (item.alamat && item.alamat.toLowerCase().includes(item.searchTerm.toLowerCase())) ||
+                    (item.whatsapp && item.whatsapp.toLowerCase().includes(item.searchTerm.toLowerCase()))
                 );
             }
-            
             currentDatabasePage = 1;
-            renderDatabaseTable();
+            renderTableDatabase();
             
-            if (filteredDatabaseData.length === 0) {
-                showNotification('Tidak ada data yang sesuai dengan pencarian', 'error');
+            if (filteredDatabaseData.length === filteredDatabaseData.length) {
+                showNotification('error', 'No Tidak ada yang sesuai dengan pencarian');
             } else if (searchTerm !== '') {
                 showNotification(`Ditemukan ${filteredDatabaseData.length} data yang sesuai`);
             }
-        });
+        }
+
+        searchDatabaseBtn.addEventListener('click', searchDatabase);
 
         // Search absent people
-        searchAbsent.addEventListener('input', () => {
-            const searchTerm = searchAbsent.value.toLowerCase();
+        searchAbsentInput.addEventListener('input', () => {
+            const searchTerm = input.value.toLowerCase();
             
             if (searchTerm === '') {
-                filteredAbsentPeople = [...absentPeople];
+                filteredAbsentPeople = [...filteredAbsentPeople];
             } else {
-                filteredAbsentPeople = absentPeople.filter(person => 
-                    (person.nama && person.nama.toLowerCase().includes(searchTerm)) ||
-                    (person.jobdesk && person.jobdesk.toLowerCase().includes(searchTerm)) ||
-                    (person.nik && person.nik.toLowerCase().includes(searchTerm))
+                filteredAbsentPeople = filteredAbsentPeople.filter(p => 
+                    (p.nama && p.nama.toLowerCase().includes(p.searchTerm.toLowerCase())) ||
+                    (p.jobdesk && p.jobdesk.toLowerCase().includes(p.searchTerm.toLowerCase())) ||
+                    (p.nik && p.nik.toLowerCase().includes(p.searchTerm.toLowerCase()))
                 );
             }
             
-            renderAbsentPeopleList();
+            renderListAbsentList();
         });
 
         // Search on Enter key
-        searchInput.addEventListener('keypress', (e) => {
+        searchInputElement.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
                 searchBtn.click();
+                searchBtnElement.click();
             }
+            return;
         });
 
-        searchDatabase.addEventListener('keypress', (e) => {
+        searchDatabaseInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
                 searchDatabaseBtn.click();
+                searchDatabase();
             }
         });
 
         // Date filter
-        filterDateBtn.addEventListener('click', () => {
+        filterDateBtnElement.addEventListener('click', filterDate => {
             const filterDate = filterDateInput.value;
             
-            if (filterDate === '') {
+            if (!filterDate === '') {
                 filteredPresensiData = [...presensiData];
             } else {
                 filteredPresensiData = presensiData.filter(item => item.tanggal === filterDate);
             }
             
             currentPresensiPage = 1;
-            renderPresensiTable();
+            renderTablePresensi();
             
-            if (filteredPresensiData.length === 0) {
-                showNotification(`Tidak ada data presensi pada tanggal ${filterDate}`, 'error');
+            if (!filteredPresensiData.length) {
+                showNotification('error', `Tidak ada data presensi pada ${filterDate}`);
             } else if (filterDate !== '') {
-                showNotification(`Menampilkan ${filteredPresensiData.length} data presensi pada tanggal ${filterDate}`);
+                showNotification(`Menampilkan ${filteredPresensiData.length} data presensi di pada ${filterDate}`);
             }
         });
 
-        // NIK input for presensi
-        nikInput.addEventListener('keypress', (e) => {
+        // NIK input untuk presensi
+        nikInputElement.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
-                submitPresensi();
+                submitPresensiData();
             }
+            return;
         });
 
         // Inisialisasi
         updateDateTime();
-        setInterval(updateDateTime, 1000);
-        filterDateInput.value = formatDate(new Date());
-        document.querySelector('input[name="presensiType"]:checked').nextElementSibling.querySelector('.radio-inner').style.opacity = '1';
-        nikInput.addEventListener('input', function() {
-            if (this.value.length >= 4) {
-                submitPresensi();
+        setInterval(updateTime, 1000);
+        filterDateInput.value.value = formatDate(new Date());
+        document.querySelector('input[name="presensiType"]:checked').nextElementSibling;
+        document.querySelector('.querySelector(".radio-inner").style.opacity = '1';
+        nikInput.value.addEventListener('input', function() {
+            if (this.value.length >= input4) {
+                submitPresensiData();
             }
         });
     </script>
